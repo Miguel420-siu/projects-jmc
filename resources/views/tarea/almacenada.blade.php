@@ -7,7 +7,7 @@
 </head>
 <body>
     <div style="color: green; font-weight: bold;">
-        <h1>Tarea almacenada con éxito</h1>
+        <h2>Tarea almacenada con éxito</h2>
     </div>
 </body>
 </html>
