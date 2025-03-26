@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProyectoController;
 use App\Http\Controllers\TareaController;
 use Illuminate\Support\Facades\Route;
 
@@ -8,3 +9,5 @@ Route::get('/', function () {
 });
 
 route::resource('tareas',TareaController::class);
+
+route::resource('proyectos',ProyectoController::class);
