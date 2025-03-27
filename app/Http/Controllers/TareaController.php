@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Services\TareaService;
 use App\Models\Tarea;
+use App\Models\Proyectos;
 use Illuminate\Http\Request;
 
 class TareaController extends Controller
@@ -16,56 +17,57 @@ public function __construct(TareaService $tareaService)
     $this->tareaService = $tareaService;
 }
     
-    public function index()
-    {
-        $tareas=$this->tareaService->obtenerTarea();
-        return view('tareas.index',compact('tareas'));
+public function index(Request $request)
+{
+    $query = Tarea::query();
+
+    // Filtrar por número de proyecto si se proporciona
+    if ($request->has('proyecto_id') && $request->proyecto_id != '') {
+        $query->where('proyecto_id', $request->proyecto_id);
     }
+
+    $tareas = $query->get();
+
+    return view('tareas.index', compact('tareas'));
+}
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
-    {
-        return view('tareas.create');
-    }
+{
+    return view('tareas.create'); // No requiere argumentos
+}
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-{
-    // Validar datos
-    $request->validate([
-        
-        'titulo' => 'required|string|max:255',
-        'descripcion' => 'nullable|string',
-        'fecha_limite' => 'required|date',
-        'prioridad' => 'required|string',
-        'estado' => 'required|in:pendiente,en_progreso,completada',
-    ]);
-
+    {
+        // Validar los datos del formulario
+        $request->validate([
+            'proyecto_id' => 'nullable|exists:proyectos,id', // Validar si el proyecto existe
+            'titulo' => 'required|string|max:255',
+            'descripcion' => 'nullable|string',
+            'fecha_limite' => 'required|date',
+            'prioridad' => 'required|string',
+        ]);
     
-    Tarea::create([
-        'titulo' => $request->titulo,
-        'descripcion' => $request->descripcion,
-        'fecha_limite' => $request->fecha_limite,
-        'prioridad' => $request->prioridad,
-        'estado' => $request->estado,
-    ]);
-
+        // Crear la tarea en la base de datos
+        Tarea::create($request->all());
     
-    return redirect()->route('tareas.index')->with('success', 'Tarea creada correctamente.');
-}
+        // Redirigir al índice de tareas con un mensaje de éxito
+        return redirect()->route('tareas.index')->with('success', 'Tarea creada exitosamente.');
+    }
 
     /**
      * Display the specified resource.
      */
-    public function show(Tarea $tarea)
-    {
-        return view('tareas.show',compact('tarea'));
-        //
-    }
+    public function show($id)
+{
+    $tarea = Tarea::with('proyecto')->findOrFail($id); // Cargar la relación proyecto
+    return view('tareas.show', compact('tarea'));
+}
 
     /**
      * Show the form for editing the specified resource.

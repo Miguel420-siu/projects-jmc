@@ -27,22 +27,29 @@
                     <label for="descripcion" class="form-label">Descripción</label>
                     <textarea name="descripcion" class="form-control" rows="3">{{ $tarea->descripcion }}</textarea>
                 </div>
+
                 <div class="mb-3">
-                    <label for="fecha_limite">Fecha Limite:</label>
-                    <input type="date" id="fecha_limite" name="fecha_limite" required>
+                    <label for="fecha_limite" class="form-label">Fecha Límite</label>
+                    <input type="date" name="fecha_limite" class="form-control" value="{{ $tarea->fecha_limite }}" required>
                 </div>
-                <div>
-                 <label for="prioridad">Prioridad:</label>
-                  <select id="prioridad" name="prioridad" required>
-                   <option value="baja">Baja</option>
-                   <option value="medio">Media</option>
-                   <option value="alta">Alta</option>
-                  </select>
+
+                <div class="mb-3">
+                    <label for="proyecto_id" class="form-label">Número del Proyecto</label>
+                    <input type="text" name="proyecto_id" class="form-control" value="{{ $tarea->proyecto_id }}" placeholder="Ingrese el número del proyecto">
+                </div>
+
+                <div class="mb-3">
+                    <label for="prioridad" class="form-label">Prioridad</label>
+                    <select name="prioridad" class="form-select" required>
+                        <option value="baja" {{ $tarea->prioridad == 'baja' ? 'selected' : '' }}>Baja</option>
+                        <option value="medio" {{ $tarea->prioridad == 'medio' ? 'selected' : '' }}>Media</option>
+                        <option value="alta" {{ $tarea->prioridad == 'alta' ? 'selected' : '' }}>Alta</option>
+                    </select>
                 </div>
 
                 <div class="mb-3">
                     <label for="estado" class="form-label">Estado</label>
-                    <select name="estado" class="form-control">
+                    <select name="estado" class="form-select">
                         <option value="pendiente" {{ $tarea->estado == 'pendiente' ? 'selected' : '' }}>Pendiente</option>
                         <option value="en_progreso" {{ $tarea->estado == 'en_progreso' ? 'selected' : '' }}>En progreso</option>
                         <option value="completada" {{ $tarea->estado == 'completada' ? 'selected' : '' }}>Completada</option>

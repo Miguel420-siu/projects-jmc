@@ -17,6 +17,14 @@
                     {{ ucfirst($tarea->estado) }}
                 </span>
             </p>
+            <p><strong>Proyecto Asociado:</strong> 
+    @if ($tarea->proyecto)
+        {{ $tarea->proyecto->nombre }}
+    @else
+        <span class="text-muted">Sin proyecto asociado</span>
+    @endif
+</p>
+            <p><strong>Número del Proyecto:</strong> {{ $tarea->proyecto_id }}</p>
 
             <a href="{{ route('tareas.index') }}" class="btn btn-secondary">⬅ Volver</a>
             <a href="{{ route('tareas.edit', $tarea) }}" class="btn btn-warning">✏ Editar</a>

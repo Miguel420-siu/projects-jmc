@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\proyectos;
+use App\Models\Proyectos; // Ensure the Proyectos model exists in this namespace
+
+// If the model is in a different namespace, update the import statement accordingly, e.g.:
+// use App\OtherNamespace\Proyectos;
 use Illuminate\Http\Request;
 
 class ProyectosController extends Controller
@@ -12,7 +15,7 @@ class ProyectosController extends Controller
      */
     public function index()
     {
-        $proyectos = proyectos::all();
+        $proyectos = Proyectos::all();
         return view('proyectos.index', compact('proyectos'));
     }
 
@@ -36,15 +39,17 @@ class ProyectosController extends Controller
             'fecha_inicio' => 'required|date',
             'fecha_fin' => 'nullable|date|after_or_equal:fecha_inicio',
             'estado' => 'required|in:activo,completado,pendiente',
+            'miembros' => 'required|string',
         ]);
 
         // Crear proyecto
-        proyectos::create([
+        Proyectos::create([
             'nombre' => $request->nombre,
             'descripcion' => $request->descripcion,
             'fecha_inicio' => $request->fecha_inicio,
             'fecha_fin' => $request->fecha_fin,
             'estado' => $request->estado,
+            'miembros' => $request->miembros,
         ]);
 
         return redirect()->route('proyectos.index')->with('success', 'Proyecto creado correctamente.');
@@ -53,8 +58,9 @@ class ProyectosController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(proyectos $proyecto)
+    public function show($id)
     {
+        $proyecto = Proyectos::with('tareas')->findOrFail($id); // Cargar las tareas asociadas
         return view('proyectos.show', compact('proyecto'));
     }
 
@@ -78,6 +84,7 @@ class ProyectosController extends Controller
             'fecha_inicio' => 'required|date',
             'fecha_fin' => 'nullable|date|after_or_equal:fecha_inicio',
             'estado' => 'required|in:activo,completado,pendiente',
+            'miembros' => 'required|string',
         ]);
 
         // Actualizar proyecto
@@ -93,5 +100,18 @@ class ProyectosController extends Controller
     {
         $proyecto->delete();
         return redirect()->route('proyectos.index')->with('success', 'El proyecto se eliminó correctamente.');
+    }
+
+    public function mostrarTareas($proyectoId)
+    {
+        $proyecto = Proyectos::with('tareas')->find($proyectoId);
+
+        if (!$proyecto) {
+            return response()->json(['error' => 'Proyecto no encontrado'], 404);
+        }
+
+        $tareas = $proyecto->tareas;
+
+        return view('proyectos.tareas', compact('proyecto', 'tareas'));
     }
 }

@@ -17,6 +17,8 @@ return new class extends Migration
             $table->text('descripcion')->nullable(); 
             $table->date('fecha_limite');
             $table->string('prioridad');
+            $table->unsignedBigInteger('proyecto_id'); // Clave foránea
+            $table->foreign('proyecto_id')->references('id')->on('proyectos')->onDelete('cascade');
             $table->enum('estado', ['pendiente', 'en_progreso', 'completada'])->default('pendiente');
             $table->timestamps();
         });

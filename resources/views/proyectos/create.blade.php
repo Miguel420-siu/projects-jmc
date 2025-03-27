@@ -1,4 +1,3 @@
-
 {{-- filepath: c:\Users\AdminSena\Documents\projects-jmc\resources\views\proyectos\create.blade.php --}}
 @extends('layouts.app')
 
@@ -34,6 +33,11 @@
                     <option value="pendiente">Pendiente</option>
                 </select>
             </div>
+            <div class="mb-3">
+                <label for="miembros" class="form-label">Miembros del Proyecto</label>
+                <input type="text" class="form-control" id="miembros" name="miembros" placeholder="Ingrese los miembros separados por comas">
+            </div>
+            <a href="{{ route('proyectos.index') }}" class="btn btn-secondary">Cancelar</a>
             <button type="submit" class="btn btn-primary">Guardar</button>
         </form>
     </div>
