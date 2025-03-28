@@ -7,7 +7,7 @@
 <div class="container mt-5">
     <div class="card shadow">
         <div class="card-header text-center">
-            <h3>➕ Crear Proyecto</h3>
+            <h3>➕ Crear Nuevo Proyecto</h3>
         </div>
         <div class="card-body">
             <form action="{{ route('proyectos.store') }}" method="POST">
@@ -15,14 +15,14 @@
 
                 <!-- Campo Nombre -->
                 <div class="mb-3">
-                    <label for="nombre" class="form-label">Nombre</label>
+                    <label for="nombre" class="form-label">Nombre del Proyecto</label>
                     <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingrese el nombre del proyecto" required>
                 </div>
 
                 <!-- Campo Descripción -->
                 <div class="mb-3">
                     <label for="descripcion" class="form-label">Descripción</label>
-                    <textarea class="form-control" id="descripcion" name="descripcion" rows="3" placeholder="Ingrese una descripción del proyecto" required></textarea>
+                    <textarea class="form-control" id="descripcion" name="descripcion" rows="3" placeholder="Ingrese una descripción"></textarea>
                 </div>
 
                 <!-- Campo Fecha de Inicio -->
@@ -37,6 +37,12 @@
                     <input type="date" class="form-control" id="fecha_fin" name="fecha_fin" required>
                 </div>
 
+                <!-- Campo Miembros -->
+                <div class="mb-3">
+                    <label for="miembros" class="form-label">Miembros</label>
+                    <input type="text" class="form-control" id="miembros" name="miembros" placeholder="Ingrese los miembros del proyecto (separados por comas)">
+                </div>
+
                 <!-- Campo Estado -->
                 <div class="mb-3">
                     <label for="estado" class="form-label">Estado</label>
@@ -47,16 +53,10 @@
                     </select>
                 </div>
 
-                <!-- Campo Miembros -->
-                <div class="mb-3">
-                    <label for="miembros" class="form-label">Miembros</label>
-                    <input type="text" class="form-control" id="miembros" name="miembros" placeholder="Ingrese los miembros separados por comas" required>
-                </div>
-
                 <!-- Botones -->
                 <div class="d-flex justify-content-between">
-                    <a href="{{ route('proyectos.index') }}" class="btn btn-secondary">⬅ Volver</a>
-                    <button type="submit" class="btn btn-primary">💾 Guardar Proyecto</button>
+                    <a href="{{ route('proyectos.index') }}" class="btn btn-secondary">⬅ Volver al Índice</a>
+                    <button type="submit" class="btn btn-primary">Guardar Proyecto</button>
                 </div>
             </form>
         </div>

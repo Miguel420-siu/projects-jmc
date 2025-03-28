@@ -9,7 +9,14 @@ class Tarea extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['titulo', 'descripcion', 'fecha_limite', 'prioridad', 'proyecto_id'];
+    protected $fillable = [
+        'nombre_proyecto',
+        'titulo',
+        'descripcion',
+        'fecha_limite',
+        'prioridad',
+        'estado',
+    ];
     
     public function proyecto()
     {

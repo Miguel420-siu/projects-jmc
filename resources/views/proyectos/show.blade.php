@@ -13,10 +13,6 @@
             <table class="table table-bordered">
                 <tbody>
                     <tr>
-                        <th>ID</th>
-                        <td>{{ $proyecto->id }}</td>
-                    </tr>
-                    <tr>
                         <th>Nombre</th>
                         <td>{{ $proyecto->nombre }}</td>
                     </tr>
@@ -52,21 +48,22 @@
             </table>
 
             <h5 class="mt-4">Tareas Asociadas:</h5>
-            @if($proyecto->tareas->isEmpty())
+            @php
+                $tareasAsociadas = $tareas->where('nombre_proyecto', $proyecto->nombre);
+            @endphp
+            @if($tareasAsociadas->isEmpty())
                 <p>No hay tareas asociadas a este proyecto.</p>
             @else
                 <table class="table table-bordered table-hover text-center align-middle">
                     <thead class="table-dark">
                         <tr>
-                            <th>ID</th>
                             <th>Título</th>
                             <th>Estado</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($proyecto->tareas as $tarea)
+                        @foreach ($tareasAsociadas as $tarea)
                             <tr>
-                                <td>{{ $tarea->id }}</td>
                                 <td>{{ $tarea->titulo }}</td>
                                 <td>
                                     <span class="badge 
@@ -92,7 +89,6 @@
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar este proyecto?')">🗑️ Eliminar Proyecto</button>
                     </form>
-                    <a href="{{ route('tareas.create', $proyecto->id) }}" class="btn btn-primary">➕ Crear Tarea</a>
                 </div>
             </div>
         </div>

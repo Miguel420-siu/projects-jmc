@@ -3,16 +3,11 @@
 @section('title', 'Editar Tarea')
 
 @section('content')
-<div class="container">
-    <h2 class="mb-4 text-center">✏ Editar Tarea</h2>
-
-    @if(session('success'))
-        <div class="alert alert-success text-center">
-            {{ session('success') }}
-        </div>
-    @endif
-
+<div class="container mt-5">
     <div class="card shadow">
+        <div class="card-header text-center">
+            <h3>✏ Editar Tarea</h3>
+        </div>
         <div class="card-body">
             <form action="{{ route('tareas.update', $tarea) }}" method="POST">
                 @csrf
@@ -34,15 +29,21 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="proyecto_id" class="form-label">Número del Proyecto</label>
-                    <input type="text" name="proyecto_id" class="form-control" value="{{ $tarea->proyecto_id }}" placeholder="Ingrese el número del proyecto">
+                    <label for="nombre_proyecto" class="form-label">Proyecto</label>
+                    <select class="form-select" id="nombre_proyecto" name="nombre_proyecto" required>
+                        @foreach ($proyectos as $proyecto)
+                            <option value="{{ $proyecto->nombre }}" {{ $tarea->nombre_proyecto == $proyecto->nombre ? 'selected' : '' }}>
+                                {{ $proyecto->nombre }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
 
                 <div class="mb-3">
                     <label for="prioridad" class="form-label">Prioridad</label>
                     <select name="prioridad" class="form-select" required>
                         <option value="baja" {{ $tarea->prioridad == 'baja' ? 'selected' : '' }}>Baja</option>
-                        <option value="medio" {{ $tarea->prioridad == 'medio' ? 'selected' : '' }}>Media</option>
+                        <option value="media" {{ $tarea->prioridad == 'media' ? 'selected' : '' }}>Media</option>
                         <option value="alta" {{ $tarea->prioridad == 'alta' ? 'selected' : '' }}>Alta</option>
                     </select>
                 </div>
@@ -56,10 +57,11 @@
                     </select>
                 </div>
 
-                <button type="submit" class="btn btn-success w-100 mb-3">Actualizar</button>
+                <div class="d-flex justify-content-between">
+                    <a href="{{ route('tareas.index') }}" class="btn btn-secondary">⬅ Volver al Índice</a>
+                    <button type="submit" class="btn btn-success">Actualizar</button>
+                </div>
             </form>
-
-            <a href="{{ route('tareas.index') }}" class="btn btn-secondary w-100">Regresar al Inicio</a>
         </div>
     </div>
 </div>

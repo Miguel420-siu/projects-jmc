@@ -3,31 +3,44 @@
 @section('title', 'Detalles de la Tarea')
 
 @section('content')
-<div class="container">
-    <h2 class="mb-4 text-center">👁 Detalles de la Tarea</h2>
-
+<div class="container mt-5">
     <div class="card shadow">
+        <div class="card-header text-center">
+            <h3>👁 Detalles de la Tarea</h3>
+        </div>
         <div class="card-body">
-            <h3>{{ $tarea->titulo }}</h3>
-            <p><strong>Descripción:</strong> {{ $tarea->descripcion }}</p>
-            <p><strong>Fecha Limite:</strong> {{ $tarea->fecha_limite }}</p>
-            <p><strong>Prioridad:</strong> {{ ucfirst($tarea->prioridad) }}</p>
-            <p><strong>Estado:</strong> 
-                <span class="badge bg-{{ $tarea->estado == 'pendiente' ? 'warning' : ($tarea->estado == 'en_progreso' ? 'primary' : 'success') }}">
-                    {{ ucfirst($tarea->estado) }}
-                </span>
-            </p>
-            <p><strong>Proyecto Asociado:</strong> 
-    @if ($tarea->proyecto)
-        {{ $tarea->proyecto->nombre }}
-    @else
-        <span class="text-muted">Sin proyecto asociado</span>
-    @endif
-</p>
-            <p><strong>Número del Proyecto:</strong> {{ $tarea->proyecto_id }}</p>
-
-            <a href="{{ route('tareas.index') }}" class="btn btn-secondary">⬅ Volver</a>
-            <a href="{{ route('tareas.edit', $tarea) }}" class="btn btn-warning">✏ Editar</a>
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <th>Nombre del Proyecto</th>
+                        <td>{{ $tarea->nombre_proyecto }}</td>
+                    </tr>
+                    <tr>
+                        <th>Título</th>
+                        <td>{{ $tarea->titulo }}</td>
+                    </tr>
+                    <tr>
+                        <th>Descripción</th>
+                        <td>{{ $tarea->descripcion }}</td>
+                    </tr>
+                    <tr>
+                        <th>Fecha Límite</th>
+                        <td>{{ $tarea->fecha_limite }}</td>
+                    </tr>
+                    <tr>
+                        <th>Prioridad</th>
+                        <td>{{ ucfirst($tarea->prioridad) }}</td>
+                    </tr>
+                    <tr>
+                        <th>Estado</th>
+                        <td>{{ ucfirst($tarea->estado) }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="mt-4 d-flex justify-content-between">
+                <a href="{{ route('tareas.index') }}" class="btn btn-secondary">⬅ Volver a Tareas</a>
+                <a href="{{ route('tareas.edit', $tarea) }}" class="btn btn-warning">✏ Editar Tarea</a>
+            </div>
         </div>
     </div>
 </div>

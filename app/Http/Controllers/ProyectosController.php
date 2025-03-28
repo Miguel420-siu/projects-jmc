@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Proyectos; // Ensure the Proyectos model exists in this namespace
+use App\Models\Proyectos;
+
+use App\Models\Tarea; // Ensure the Tarea model exists in this namespace
+// Ensure the Proyectos model exists in this namespace
 
 // If the model is in a different namespace, update the import statement accordingly, e.g.:
 // use App\OtherNamespace\Proyectos;
@@ -60,8 +63,14 @@ class ProyectosController extends Controller
      */
     public function show($id)
     {
-        $proyecto = Proyectos::with('tareas')->findOrFail($id); // Cargar las tareas asociadas
-        return view('proyectos.show', compact('proyecto'));
+        // Encuentra el proyecto por su ID
+        $proyecto = Proyectos::findOrFail($id);
+
+        // Obtén las tareas asociadas utilizando nombre_proyecto
+        $tareas = Tarea::where('nombre_proyecto', $proyecto->nombre)->get();
+
+        // Retorna la vista con el proyecto y las tareas asociadas
+        return view('proyectos.show', compact('proyecto', 'tareas'));
     }
 
     /**
@@ -75,22 +84,21 @@ class ProyectosController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, proyectos $proyecto)
+    public function update(Request $request, $id)
     {
-        // Validar datos
         $request->validate([
             'nombre' => 'required|string|max:255',
-            'descripcion' => 'nullable|string',
+            'descripcion' => 'required|string',
             'fecha_inicio' => 'required|date',
-            'fecha_fin' => 'nullable|date|after_or_equal:fecha_inicio',
-            'estado' => 'required|in:activo,completado,pendiente',
-            'miembros' => 'required|string',
+            'fecha_fin' => 'required|date|after_or_equal:fecha_inicio',
+            'estado' => 'required|in:pendiente,en_progreso,completada',
+            'miembros' => 'nullable|string',
         ]);
 
-        // Actualizar proyecto
+        $proyecto = Proyectos::findOrFail($id);
         $proyecto->update($request->all());
 
-        return redirect()->route('proyectos.edit', $proyecto)->with('success', 'El proyecto se editó con éxito.');
+        return redirect()->route('proyectos.index')->with('success', 'Proyecto actualizado correctamente.');
     }
 
     /**
