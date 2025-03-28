@@ -4,36 +4,97 @@
 @section('title', 'Detalles del Proyecto')
 
 @section('content')
-<div class="card">
-    <div class="card-header">Detalles del Proyecto</div>
-    <div class="card-body">
-        <h5>Nombre: {{ $proyecto->nombre }}</h5>
-        <p>Descripción: {{ $proyecto->descripcion }}</p>
-        <p>Fecha de Inicio: {{ $proyecto->fecha_inicio }}</p>
-        <p>Fecha de Fin: {{ $proyecto->fecha_fin }}</p>
-        <p>Estado: {{ ucfirst($proyecto->estado) }}</p>
-        <p>Miembros: {{ $proyecto->miembros }}</p>
+<div class="container mt-5">
+    <div class="card shadow">
+        <div class="card-header text-center">
+            <h3>📋 Detalles del Proyecto</h3>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <th>ID</th>
+                        <td>{{ $proyecto->id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Nombre</th>
+                        <td>{{ $proyecto->nombre }}</td>
+                    </tr>
+                    <tr>
+                        <th>Descripción</th>
+                        <td>{{ $proyecto->descripcion }}</td>
+                    </tr>
+                    <tr>
+                        <th>Fecha de Inicio</th>
+                        <td>{{ $proyecto->fecha_inicio }}</td>
+                    </tr>
+                    <tr>
+                        <th>Fecha de Fin</th>
+                        <td>{{ $proyecto->fecha_fin }}</td>
+                    </tr>
+                    <tr>
+                        <th>Estado</th>
+                        <td>
+                            <span class="badge 
+                                @if($proyecto->estado == 'pendiente') bg-warning 
+                                @elseif($proyecto->estado == 'en_progreso') bg-info 
+                                @else bg-success 
+                                @endif">
+                                {{ ucfirst($proyecto->estado) }}
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Miembros</th>
+                        <td>{{ $proyecto->miembros }}</td>
+                    </tr>
+                </tbody>
+            </table>
 
-        <h5 class="mt-4">Tareas Asociadas:</h5>
-        @if($proyecto->tareas->isEmpty())
-            <p>No hay tareas asociadas a este proyecto.</p>
-        @else
-            <ul>
-                @foreach ($proyecto->tareas as $tarea)
-                    <li>{{ $tarea->titulo }} - {{ ucfirst($tarea->estado) }}</li>
-                @endforeach
-            </ul>
-        @endif
+            <h5 class="mt-4">Tareas Asociadas:</h5>
+            @if($proyecto->tareas->isEmpty())
+                <p>No hay tareas asociadas a este proyecto.</p>
+            @else
+                <table class="table table-bordered table-hover text-center align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Título</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($proyecto->tareas as $tarea)
+                            <tr>
+                                <td>{{ $tarea->id }}</td>
+                                <td>{{ $tarea->titulo }}</td>
+                                <td>
+                                    <span class="badge 
+                                        @if($tarea->estado == 'pendiente') bg-warning 
+                                        @elseif($tarea->estado == 'en_progreso') bg-info 
+                                        @else bg-success 
+                                        @endif">
+                                        {{ ucfirst($tarea->estado) }}
+                                    </span>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @endif
 
-        <div class="mt-4">
-            <a href="{{ route('proyectos.edit', $proyecto) }}" class="btn btn-warning">✏️ Editar Proyecto</a>
-            <form action="{{ route('proyectos.destroy', $proyecto) }}" method="POST" class="d-inline">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar este proyecto?')">🗑️ Eliminar Proyecto</button>
-            </form>
-            <a href="{{ route('tareas.create', $proyecto->id) }}" class="btn btn-primary">➕ Crear Tarea</a>
-            <a href="{{ route('proyectos.index') }}" class="btn btn-secondary">⬅️ Volver a Proyectos</a>
+            <div class="mt-4 d-flex justify-content-between">
+                <a href="{{ route('proyectos.index') }}" class="btn btn-secondary">⬅️ Volver a Proyectos</a>
+                <div>
+                    <a href="{{ route('proyectos.edit', $proyecto) }}" class="btn btn-warning">✏️ Editar Proyecto</a>
+                    <form action="{{ route('proyectos.destroy', $proyecto) }}" method="POST" class="d-inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar este proyecto?')">🗑️ Eliminar Proyecto</button>
+                    </form>
+                    <a href="{{ route('tareas.create', $proyecto->id) }}" class="btn btn-primary">➕ Crear Tarea</a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
