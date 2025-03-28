@@ -1,4 +1,4 @@
-<!-- filepath: c:\Users\pc\Documents\Trabajos\Trabajos SENA\Desarrollo de aplicaciones en php\projects-jmc\resources\views\welcome.blade.php -->
+<!-- filepath: c:\Users\pc\Documents\Trabajos\Trabajos SENA\Desarrollo de aplicaciones en php\scfinal\projects-jmc\resources\views\welcome.blade.php -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,24 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Proyectos y Tareas</title>
     <style>
-        /* Estilos generales */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f9f9f9;
             color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         header {
-            background-color:#d2b48c;
+            background-color: #d2b48c;
             color: white;
             padding: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: relative;
-            z-index: 2;
         }
 
         header h1 {
@@ -52,78 +52,81 @@
         }
 
         .hero {
-            position: relative;
-            text-align: center;
+            background-image: url('{{ asset('images/imagen fondo.webp') }}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             color: white;
-        }
-
-        .hero img {
-            width: 100%;
-            height: 400px;
-            object-fit: cover;
-            filter: brightness(70%);
+            padding: 200px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex: 1;
         }
 
         .hero-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 2;
+            flex: 1;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-left: 20px;
         }
 
-        .hero-text h1 {
-            font-size: 3rem;
-            margin: 0;
+        .hero-text h2 {
+            color: #d2b48c;
+            margin-bottom: 10px;
         }
 
         .hero-text p {
-            font-size: 1.2rem;
-            margin-top: 10px;
+            font-size: 1rem;
+            color: #333;
         }
 
-        .container {
+        .contact-box {
+            flex: 1;
+            background-color: #f9f9f9;
             padding: 20px;
-            max-width: 1200px;
-            margin: auto;
+            border-radius: 8px;
+            margin-left: 20px;
         }
 
-        .section {
-            margin-bottom: 30px;
-            background-color: #fff;
+        .contact-box h3 {
+            color: #d2b48c;
+            margin-bottom: 10px;
+        }
+
+        .contact-box p {
+            color: #333;
+            font-size: 1rem;
+        }
+
+        .features {
+            background-color: #d2b48c;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .features h2 {
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .feature {
+            background-color: white;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
-        .section h2 {
+        .feature h3 {
             color: #d2b48c;
             margin-bottom: 10px;
-        }
-
-        .section h3 {
-            color: #c39a5c;
-            margin-top: 15px;
-        }
-
-        .buttons {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .button {
-            display: inline-block;
-            padding: 10px 20px;
-            margin: 5px;
-            background-color: #d2b48c;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-
-        .button:hover {
-            background-color: #c39a5c;
         }
 
         footer {
@@ -131,20 +134,11 @@
             color: white;
             text-align: center;
             padding: 10px 0;
-            margin-top: 20px;
+            margin-top: auto;
         }
 
         footer p {
             margin: 5px 0;
-        }
-
-        footer a {
-            color: #d2b48c;
-            text-decoration: none;
-        }
-
-        footer a:hover {
-            text-decoration: underline;
         }
     </style>
 </head>
@@ -156,37 +150,58 @@
             <a href="/login" class="header-button">Iniciar Sesión</a>
         </div>
     </header>
+
     <div class="hero">
-        <img src="{{ asset('images/imagen fondo.webp') }}" alt="Fondo de Proyectos">
         <div class="hero-text">
-            <h1>Bienvenido a Projects-JMC</h1>
-            <p>Gestiona tus proyectos y tareas de manera eficiente y colaborativa.</p>
+            <h2>Gestor de tareas y proyectos</h2>
+            <p>Gestiona tus proyectos y tareas de manera sencilla y eficiente.</p>
+        </div>
+        <div class="contact-box">
+            <h3>Contáctanos</h3>
+            <p>Si tienes preguntas o necesitas ayuda, no dudes en contactarnos.</p>
+            <p>Email: soporte@projects-jmc.com</p>
+            <p>Teléfono: +57 123 456 7890</p>
         </div>
     </div>
-    <div class="container">
-        <div class="section">
-            <h2>¿Qué somos?</h2>
-            <p>Somos un software que te permite gestionar tus proyectos y tareas de forma simple, sencilla y eficiente, para que tengas el control de lo que necesitas.</p>
+
+    <div class="features">
+        <h2>Funcionalidades</h2>
+        <div class="features-grid">
+            <div class="feature">
+                <h3>Crear Proyectos</h3>
+                <p>Crea proyectos para organizar tus tareas y actividades.</p>
+            </div>
+            <div class="feature">
+                <h3>Administrar Tareas</h3>
+                <p>Asigna tareas a tus proyectos y mantén un control de su estado.</p>
+            </div>
+            <div class="feature">
+                <h3>Colaborar con Otros</h3>
+                <p>Invita a otros usuarios a colaborar en tus proyectos y tareas.</p>
+            </div>
+            <div class="feature">
+                <h3>Visualizar Progreso</h3>
+                <p>Utiliza gráficos y estadísticas para visualizar el progreso.</p>
+            </div>
+            <div class="feature">
+                <h3>Crear Recompensas</h3>
+                <p>Crea y modifica recompensas para valorar el esfuerzo y productividad.</p>
+            </div>
+            <div class="feature">
+                <h3>Notificaciones</h3>
+                <p>Recibe notificaciones para visualizar el progreso y estar informado sobre lo que necesitas.</p>
+            </div>
+            <div class="feature">
+                <h3>Calendario</h3>
+                <p>Configura recordatorios personalizados, plazos de entrega y bloques de tiempo para maximizar tu productividad.</p>
+            </div>
+            <div class="feature">
+                <h3>Historial de Actividades</h3>
+                <p>Consulta el historial de actividades para ver el progreso de tus tareas y proyectos.</p>
+            </div>
         </div>
-        <div class="section">
-            <h2>¿Qué puedes hacer?</h2>
-            <h3>Crear Proyectos</h3>
-            <p>Crea proyectos para organizar tus tareas y actividades.</p>
-            <h3>Administrar Tareas</h3>
-            <p>Asigna tareas a tus proyectos y mantén un control de su estado.</p>
-            <h3>Colaborar con Otros</h3>    
-            <p>Invita a otros usuarios a colaborar en tus proyectos y tareas para desarrollar estas actividades en tiempo real y llevar control del progreso.</p>
-            <h3>Visualizar Progreso</h3>
-            <p>Utiliza gráficos y estadísticas para visualizar el progreso de tus proyectos y tareas.</p>
-            <h3>Notificaciones</h3>
-            <p>Recibe notificaciones sobre cambios y actualizaciones en tus proyectos y tareas.</p>
-            <h3>Recompensas</h3>
-            <p>Configura recompensas por completar tareas y proyectos, para recompensar el esfuerzo y la productividad.</p>
-            <h3>Y mucho más...</h3>
-            <p>Regístrate para descubrir todas las funcionalidades.</p>
-        </div>
-    
     </div>
+
     <footer>
         <p>&copy; 2025 Projects-JMC.</p>
         <p>Desarrollado por JMC</p>
