@@ -42,6 +42,7 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary w-100">Guardar Tarea</button>
+                <a href="{{ route('tareas.index') }}" class="btn btn-secondary w-100 mt-2">Cancelar</a>
             </form>
         </div>
     </div>
