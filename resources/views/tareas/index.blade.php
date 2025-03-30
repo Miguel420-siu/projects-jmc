@@ -1,13 +1,22 @@
-{{-- filepath: c:\Users\pc\Downloads\projectsj\resources\views\tareas\index.blade.php --}}
+{{-- filepath: c:\Users\pc\Documents\Trabajos\Desarrollo\pruebas laravel\projects-jmc\resources\views\tareas\index.blade.php --}}
 @extends('layouts.app')
 
 @section('content')
+@auth
 <div class="container mt-5">
-    <h2 class="mb-4 text-center">📋 Lista de Tareas</h2>
-
-    <div class="d-flex justify-content-end mb-3">
-        <a href="{{ route('tareas.create') }}" class="btn btn-primary">➕ Crear Nueva Tarea</a>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-center m-0">📋 Lista de Tareas</h2>
+        <form action="/logout" method="POST" class="m-0">
+            @csrf
+            <button type="submit" class="btn btn-outline-danger">Cerrar sesión</button>
+        </form>
     </div>
+
+    <div class="alert alert-info text-center">
+        Hola {{ Auth::user()->name }}, aquí puedes gestionar tus tareas.
+    </div>
+
+    <a href="{{ route('tareas.create') }}" class="btn btn-primary mb-3">➕ Crear Nueva Tarea</a>
 
     <div class="card p-4">
         @if($tareas->isEmpty())
@@ -56,4 +65,9 @@
         @endif
     </div>
 </div>
+@endauth
+
+@guest
+    <script>alert('Debes iniciar sesión para ver tus tareas.');</script>
+@endguest
 @endsection
