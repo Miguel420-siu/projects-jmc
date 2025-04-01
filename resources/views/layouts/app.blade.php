@@ -8,12 +8,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #f5f5dc; /* Beige */
+            background-color: #C9D1D8; /* Beige */
             color: #333; /* Texto oscuro */
             font-family: 'Arial', sans-serif;
         }
         .navbar {
-            background-color: #d2b48c; /* Tan */
+            background-color: #6A6E72; /* Tan */
         }
         .navbar-brand {
             font-weight: bold;
@@ -25,15 +25,15 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         .btn-primary {
-            background-color: #d2b48c;
-            border-color: #d2b48c;
+            background-color: #6A6E72;
+            border-color: #6A6E72;
         }
         .btn-primary:hover {
-            background-color: #c2a17e;
-            border-color: #c2a17e;
+            background-color: #C9D1D8;
+            border-color: #C9D1D8;
         }
         .table thead {
-            background-color: #d2b48c;
+            background-color: #6A6E72;
             color: #fff;
         }
         .badge {

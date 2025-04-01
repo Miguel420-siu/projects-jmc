@@ -27,7 +27,7 @@
             <div style="margin-bottom: 15px; width: 100%;">
                 <input type="password" name="password" placeholder="Contraseña" required style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
             </div>
-            <button type="submit" style="padding: 10px 20px; background-color: #d2b48c; color: white; border: none; border-radius: 5px; cursor: pointer;">
+            <button type="submit" style="padding: 10px 20px; background-color: #6A6E72; color: white; border: none; border-radius: 5px; cursor: pointer;">
                 Iniciar Sesión
             </button>
         </form>

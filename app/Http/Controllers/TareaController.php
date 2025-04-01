@@ -85,4 +85,11 @@ class TareaController extends Controller
         // Retorna la vista de detalles de la tarea
         return view('tareas.show', compact('tarea'));
     }
+
+
+    public function destroy(Tarea $tarea)
+    {
+        $tarea->delete();
+        return redirect()->route('proyectos.index')->with('success', 'El proyecto se eliminó correctamente.');
+    }
 }

@@ -1,4 +1,4 @@
-<!-- filepath: c:\Users\pc\Documents\Trabajos\Trabajos SENA\Desarrollo de aplicaciones en php\scfinal\projects-jmc\resources\views\welcome.blade.php -->
+<!-- filepath: c:\Users\pc\Documents\Trabajos\Trabajos SENA\Desarrollo de aplicaciones en php\scfinal\final\projects-jmc\resources\views\welcome.blade.php -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,10 +7,10 @@
     <title>Gestión de Proyectos y Tareas</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f9f9f9;
+            background-color: #F4F6F8;
             color: #333;
             display: flex;
             flex-direction: column;
@@ -18,12 +18,13 @@
         }
 
         header {
-            background-color: #d2b48c;
+            background-color: #6A6E72;
             color: white;
             padding: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
         header h1 {
@@ -39,15 +40,16 @@
         .header-button {
             padding: 10px 15px;
             background-color: #fff;
-            color: #d2b48c;
+            color: #6A6E72;
             text-decoration: none;
             border-radius: 5px;
             font-weight: bold;
             transition: background-color 0.3s ease, color 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
         .header-button:hover {
-            background-color: #d2b48c;
+            background-color: #6A6E72;
             color: white;
         }
 
@@ -57,58 +59,40 @@
             background-position: center;
             background-repeat: no-repeat;
             color: white;
-            padding: 200px 20px;
+            padding: 100px 20px;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            flex: 1;
+            text-align: center;
         }
 
-        .hero-text {
-            flex: 1;
-            background-color: #f9f9f9;
-            padding: 20px;
-            border-radius: 8px;
-            margin-left: 20px;
+        .hero-content {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
         }
 
-        .hero-text h2 {
-            color: #d2b48c;
-            margin-bottom: 10px;
+        .hero-content h2 {
+            color: #6A6E72;
+            margin-bottom: 15px;
         }
 
-        .hero-text p {
-            font-size: 1rem;
+        .hero-content p {
+            font-size: 1.1rem;
             color: #333;
-        }
-
-        .contact-box {
-            flex: 1;
-            background-color: #f9f9f9;
-            padding: 20px;
-            border-radius: 8px;
-            margin-left: 20px;
-        }
-
-        .contact-box h3 {
-            color: #d2b48c;
-            margin-bottom: 10px;
-        }
-
-        .contact-box p {
-            color: #333;
-            font-size: 1rem;
         }
 
         .features {
-            background-color: #d2b48c;
+            background-color: #fff;
             padding: 40px 20px;
             text-align: center;
         }
 
         .features h2 {
-            color: white;
-            margin-bottom: 20px;
+            color: #6A6E72;
+            margin-bottom: 30px;
         }
 
         .features-grid {
@@ -118,22 +102,69 @@
         }
 
         .feature {
-            background-color: white;
+            background-color: #F9FAFB;
             padding: 20px;
-            border-radius: 8px;
+            border-radius: 10px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: left;
         }
 
         .feature h3 {
-            color: #d2b48c;
+            color: #6A6E72;
             margin-bottom: 10px;
+        }
+
+        .contact {
+            background-color: #F4F6F8;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .contact h2 {
+            color: #6A6E72;
+            margin-bottom: 20px;
+        }
+
+        .contact form {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .contact form label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .contact form input,
+        .contact form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .contact form button {
+            padding: 10px 20px;
+            background-color: #6A6E72;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .contact form button:hover {
+            background-color: #555;
         }
 
         footer {
             background-color: #333;
             color: white;
             text-align: center;
-            padding: 10px 0;
+            padding: 15px 0;
             margin-top: auto;
         }
 
@@ -152,15 +183,9 @@
     </header>
 
     <div class="hero">
-        <div class="hero-text">
+        <div class="hero-content">
             <h2>Gestor de tareas y proyectos</h2>
             <p>Gestiona tus proyectos y tareas de manera sencilla y eficiente.</p>
-        </div>
-        <div class="contact-box">
-            <h3>Contáctanos</h3>
-            <p>Si tienes preguntas o necesitas ayuda, no dudes en contactarnos.</p>
-            <p>Email: soporte@projects-jmc.com</p>
-            <p>Teléfono: +57 123 456 7890</p>
         </div>
     </div>
 
@@ -200,6 +225,26 @@
                 <p>Consulta el historial de actividades para ver el progreso de tus tareas y proyectos.</p>
             </div>
         </div>
+    </div>
+
+    <div class="contact">
+        <h2>Contacto</h2>
+        @if(session('success'))
+            <p style="color: green;">{{ session('success') }}</p>
+        @endif
+        <form action="{{ route('comentarios.store')  }}" method="POST">
+            @csrf
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required>
+    
+            <label for="email">Correo Electrónico</label>
+            <input type="email" id="email" name="email" placeholder="Tu correo electrónico" required>
+    
+            <label for="mensaje">Mensaje</label>
+            <textarea id="mensaje" name="mensaje" rows="5" placeholder="Escribe tu mensaje aquí..." required></textarea>
+    
+            <button type="submit">Enviar</button>
+        </form>
     </div>
 
     <footer>

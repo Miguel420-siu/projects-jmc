@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ComentarioController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\RegisterController;
@@ -30,6 +31,6 @@ Route::resource('proyectos', ProyectosController::class);
 
 Route::get('/tareas', [TareaController::class, 'index'])->name('tareas.index');
 
-
-
+//rutas para comentarios
+Route::post('/comentarios', [ComentarioController::class, 'store'])->name('comentarios.store');
 

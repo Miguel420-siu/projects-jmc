@@ -107,7 +107,11 @@ class ProyectosController extends Controller
     public function destroy(proyectos $proyecto)
     {
         $proyecto->delete();
+        // Eliminar las tareas asociadas al proyecto
+        Tarea::where('nombre_proyecto', $proyecto->nombre)->delete();
+        // Redirigir a la lista de proyectos con un mensaje de éxito
         return redirect()->route('proyectos.index')->with('success', 'El proyecto se eliminó correctamente.');
+        
     }
 
     public function mostrarTareas($proyectoId)
