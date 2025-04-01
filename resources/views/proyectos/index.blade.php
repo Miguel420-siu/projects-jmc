@@ -30,7 +30,6 @@
                     <table class="table table-bordered table-hover text-center align-middle">
                         <thead class="table-dark">
                             <tr>
-                                <th>ID</th>
                                 <th>Nombre</th>
                                 <th>Descripción</th>
                                 <th>Fecha de Inicio</th>
@@ -43,7 +42,6 @@
                         <tbody>
                             @foreach ($proyectos as $proyecto)
                                 <tr>
-                                    <td>{{ $proyecto->id }}</td>
                                     <td>{{ $proyecto->nombre }}</td>
                                     <td>{{ $proyecto->descripcion }}</td>
                                     <td>{{ $proyecto->fecha_inicio }}</td>

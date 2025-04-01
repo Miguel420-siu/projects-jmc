@@ -16,10 +16,15 @@ class Tarea extends Model
         'fecha_limite',
         'prioridad',
         'estado',
+        'user_id'
     ];
     
     public function proyecto()
     {
         return $this->belongsTo(Proyectos::class, 'proyecto_id');
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

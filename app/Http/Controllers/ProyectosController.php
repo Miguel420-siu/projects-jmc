@@ -18,7 +18,9 @@ class ProyectosController extends Controller
      */
     public function index()
     {
-        $proyectos = Proyectos::all();
+        // Obtener solo los proyectos del usuario autenticado
+        $proyectos = auth()->user()->proyectos()->get();
+
         return view('proyectos.index', compact('proyectos'));
     }
 
@@ -45,11 +47,11 @@ class ProyectosController extends Controller
         ]);
 
         // Crear proyecto
-        Proyectos::create($request->all());
-        
+        // Crear el proyecto asociado al usuario autenticado
+        auth()->user()->proyectos()->create($request->all());
+
         return redirect()->route('proyectos.index')->with('success', 'Proyecto creado correctamente.');
     }
-
     /**
      * Display the specified resource.
      */

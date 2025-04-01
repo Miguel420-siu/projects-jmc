@@ -11,7 +11,8 @@ class TareaController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Tarea::query();
+        // Obtener solo las tareas del usuario autenticado
+        $query = Tarea::where('user_id', auth()->id());
 
         // Filtrar por nombre del proyecto
         if ($request->filled('nombre_proyecto')) {
@@ -31,15 +32,18 @@ class TareaController extends Controller
         // Obtener las tareas filtradas
         $tareas = $query->get();
 
-        // Obtener los proyectos para el filtro
-        $proyecto = Proyectos::all();
+        // Obtener los proyectos del usuario autenticado para los filtros
+        $proyecto = Proyectos::where('user_id', auth()->id())->get();
 
         return view('tareas.index', compact('tareas', 'proyecto'));
     }
 
     public function create()
     {
-        $proyectos = Proyectos::all(); // Obtén todos los proyectos
+        // Obtener solo los proyectos del usuario autenticado
+        $proyectos = Proyectos::where('user_id', auth()->id())->get();
+        
+
         return view('tareas.create', compact('proyectos'));
     }
 
@@ -53,7 +57,14 @@ class TareaController extends Controller
             'prioridad' => 'required|string|in:alta,media,baja',
         ]);
 
-        Tarea::create($request->all());
+        Tarea::create([
+            'titulo' => $request->titulo,
+            'descripcion' => $request->descripcion,
+            'fecha_limite' => $request->fecha_limite,
+            'prioridad' => $request->prioridad,
+            'nombre_proyecto' => $request->nombre_proyecto,
+            'user_id' => auth()->id(), // Asociar al usuario autenticado
+        ]);
 
         return redirect()->route('tareas.index')->with('success', 'Tarea creada exitosamente.');
     }
