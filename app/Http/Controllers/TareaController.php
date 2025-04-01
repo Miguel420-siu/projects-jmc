@@ -1,87 +1,63 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Services\TareaService;
+
 use App\Models\Tarea;
+use App\Models\Proyectos;
+use App\Models\Proyecto;
 use Illuminate\Http\Request;
 
 class TareaController extends Controller
 {
-    
-
-protected $tareaService;
-
-public function __construct(TareaService $tareaService)
-{
-    $this->tareaService = $tareaService;
-}
-    
-    public function index()
+    public function index(Request $request)
     {
-        $tareas=$this->tareaService->obtenerTarea();
-        return view('tareas.index',compact('tareas'));
+        // Obtén todas las tareas
+        $query = Tarea::query();
+
+        // Filtrar por nombre del proyecto si se selecciona uno
+        if ($request->has('nombre_proyecto') && $request->nombre_proyecto != '') {
+            $query->where('nombre_proyecto', $request->nombre_proyecto);
+        }
+
+        $tareas = $query->get();
+
+        // Obtén todos los proyectos para el filtro
+        $proyecto = Proyectos::all();
+
+        return view('tareas.index', compact('tareas', 'proyecto'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        return view('tareas.create');
+        $proyectos = Proyectos::all(); // Obtén todos los proyectos
+        return view('tareas.create', compact('proyectos'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
-{
-    // Validar datos
-    $request->validate([
-        
-        'titulo' => 'required|string|max:255',
-        'descripcion' => 'nullable|string',
-        'fecha_limite' => 'required|date',
-        'prioridad' => 'required|string',
-        'estado' => 'required|in:pendiente,en_progreso,completada',
-    ]);
-
-    
-    Tarea::create([
-        'titulo' => $request->titulo,
-        'descripcion' => $request->descripcion,
-        'fecha_limite' => $request->fecha_limite,
-        'prioridad' => $request->prioridad,
-        'estado' => $request->estado,
-    ]);
-
-    
-    return redirect()->route('tareas.index')->with('success', 'Tarea creada correctamente.');
-}
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Tarea $tarea)
     {
-        return view('tareas.show',compact('tarea'));
-        //
+        $request->validate([
+            'nombre_proyecto' => 'required|string',
+            'titulo' => 'required|string|max:255',
+            'descripcion' => 'nullable|string',
+            'fecha_limite' => 'required|date',
+            'prioridad' => 'required|string|in:alta,media,baja',
+        ]);
+
+        Tarea::create($request->all());
+
+        return redirect()->route('tareas.index')->with('success', 'Tarea creada exitosamente.');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Tarea $tarea)
     {
-        
-        return view('tareas.edit',compact('tarea'));
+        $proyectos = Proyectos::all(); // Para mostrar en el formulario de edición
+        return view('tareas.edit', compact('tarea', 'proyectos'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Tarea $tarea)
     {
         $request->validate([
+            'nombre_proyecto' => 'required|string',
             'titulo' => 'required|string|max:255',
             'descripcion' => 'nullable|string',
             'fecha_limite' => 'required|date',
@@ -89,17 +65,14 @@ public function __construct(TareaService $tareaService)
             'estado' => 'required|in:pendiente,en_progreso,completada',
         ]);
 
-        $this->tareaService->actualizarTarea($tarea, $request->all());
+        $tarea->update($request->all());
 
-        return redirect()->route('tareas.edit', $tarea)->with('success', 'La tarea se editó con éxito.');
+        return redirect()->route('tareas.index')->with('success', 'Tarea actualizada exitosamente.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Tarea $tarea)
+    public function show(Tarea $tarea)
     {
-        $this->tareaService->eliminarTarea($tarea);
-        return redirect()->route('tareas.index')->with('success','la tarea se borro corretcamente');
+        // Retorna la vista de detalles de la tarea
+        return view('tareas.show', compact('tarea'));
     }
 }

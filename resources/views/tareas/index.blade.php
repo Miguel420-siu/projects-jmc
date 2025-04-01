@@ -1,72 +1,118 @@
 {{-- filepath: c:\Users\pc\Documents\Trabajos\Desarrollo\pruebas laravel\projects-jmc\resources\views\tareas\index.blade.php --}}
 @extends('layouts.app')
 
+@section('title', 'Lista de Tareas')
+
 @section('content')
 @auth
 <div class="container mt-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="text-center m-0">📋 Lista de Tareas</h2>
-        <form action="/logout" method="POST" class="m-0">
-            @csrf
-            <button type="submit" class="btn btn-outline-danger">Cerrar sesión</button>
-        </form>
-    </div>
-
-    <div class="alert alert-info text-center">
-        Hola {{ Auth::user()->name }}, aquí puedes gestionar tus tareas.
-    </div>
-
-    <a href="{{ route('tareas.create') }}" class="btn btn-primary mb-3">➕ Crear Nueva Tarea</a>
-
-    <div class="card p-4">
-        @if($tareas->isEmpty())
-            <div class="alert alert-info text-center">
-                No hay tareas registradas.
+    <div class="card shadow">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h3 class="mb-0">📋 Lista de Tareas</h3>
+            <div>
+                <a href="{{ route('tareas.create') }}" class="btn btn-primary">➕ Crear Tarea</a>
+                <a href="{{ route('proyectos.index') }}" class="btn btn-secondary">Ir a Proyectos</a>
             </div>
-        @else
-            <table class="table table-hover text-center">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Título</th>
-                        <th>Estado</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($tareas as $tarea)
-                        <tr>
-                            <td>{{ $tarea->id }}</td>
-                            <td>{{ $tarea->titulo }}</td>
-                            <td>
-                                <span class="badge 
-                                    @if($tarea->estado == 'pendiente') bg-warning 
-                                    @elseif($tarea->estado == 'en_progreso') bg-info 
-                                    @else bg-success 
-                                    @endif">
-                                    {{ ucfirst($tarea->estado) }}
-                                </span>
-                            </td>
-                            <td>
-                                <a href="{{ route('tareas.show', $tarea) }}" class="btn btn-sm btn-outline-info">👁️ Ver</a>
-                                <a href="{{ route('tareas.edit', $tarea) }}" class="btn btn-sm btn-outline-warning">✏️ Editar</a>
-                                <form action="{{ route('tareas.destroy', $tarea) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Estás seguro de eliminar esta tarea?')">
-                                        🗑️ Eliminar
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        @endif
+        </div>
+        <div class="card-body">
+            <!-- Filtros -->
+            <form method="GET" action="{{ route('tareas.index') }}" class="mb-4">
+                <div class="row g-2">
+                    <!-- Filtro por nombre del proyecto -->
+                    <div class="col-md-4">
+                        <select name="nombre_proyecto" class="form-select">
+                            <option value="">Todos los Proyectos</option>
+                            @foreach ($proyecto as $item)
+                                <option value="{{ $item->nombre }}" {{ request('nombre_proyecto') == $item->nombre ? 'selected' : '' }}>
+                                    {{ $item->nombre }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- Filtro por estado -->
+                    <div class="col-md-3">
+                        <select name="estado" class="form-select">
+                            <option value="">Todos los Estados</option>
+                            <option value="pendiente" {{ request('estado') == 'pendiente' ? 'selected' : '' }}>Pendiente</option>
+                            <option value="en_progreso" {{ request('estado') == 'en_progreso' ? 'selected' : '' }}>En Progreso</option>
+                            <option value="completada" {{ request('estado') == 'completada' ? 'selected' : '' }}>Completada</option>
+                        </select>
+                    </div>
+
+                    <!-- Filtro por prioridad -->
+                    <div class="col-md-3">
+                        <select name="prioridad" class="form-select">
+                            <option value="">Todas las Prioridades</option>
+                            <option value="alta" {{ request('prioridad') == 'alta' ? 'selected' : '' }}>Alta</option>
+                            <option value="media" {{ request('prioridad') == 'media' ? 'selected' : '' }}>Media</option>
+                            <option value="baja" {{ request('prioridad') == 'baja' ? 'selected' : '' }}>Baja</option>
+                        </select>
+                    </div>
+
+                    <!-- Botones de acción -->
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary w-100">Filtrar</button>
+                    </div>
+                    <div class="col-md-2">
+                        <a href="{{ route('tareas.index') }}" class="btn btn-secondary w-100">Limpiar Filtro</a>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Tabla de tareas -->
+            @if($tareas->isEmpty())
+                <div class="alert alert-info text-center">
+                    No hay tareas registradas.
+                </div>
+            @else
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover text-center align-middle">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Nombre del Proyecto</th>
+                                <th>Título</th>
+                                <th>Fecha Límite</th>
+                                <th>Prioridad</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($tareas as $tarea)
+                                <tr>
+                                    <td>{{ $tarea->nombre_proyecto }}</td>
+                                    <td>{{ $tarea->titulo }}</td>
+                                    <td>{{ $tarea->fecha_limite }}</td>
+                                    <td>{{ ucfirst($tarea->prioridad) }}</td>
+                                    <td>
+                                        <span class="badge 
+                                            @if($tarea->estado == 'pendiente') bg-warning 
+                                            @elseif($tarea->estado == 'en_progreso') bg-info 
+                                            @else bg-success 
+                                            @endif">
+                                            {{ ucfirst($tarea->estado) }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('tareas.show', $tarea) }}" class="btn btn-sm btn-outline-info">👁️ Ver</a>
+                                        <a href="{{ route('tareas.edit', $tarea) }}" class="btn btn-sm btn-outline-warning">✏️ Editar</a>
+                                        <form action="{{ route('tareas.destroy', $tarea) }}" method="POST" class="d-inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Estás seguro de eliminar esta tarea?')">🗑️ Eliminar</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            @endif
+        </div>
     </div>
 </div>
 @endauth
-
 @guest
     <script>alert('Debes iniciar sesión para ver tus tareas.');</script>
 @endguest
