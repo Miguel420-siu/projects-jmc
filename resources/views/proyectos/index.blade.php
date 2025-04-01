@@ -16,8 +16,8 @@
             <h3 class="mb-0">📋 Lista de Proyectos</h3>
             <div>
                 <a href="{{ route('proyectos.create') }}" class="btn btn-primary">➕ Crear Proyecto</a>
-                <a href="{{ route('tareas.index') }}" class="btn btn-secondary">Ir a Tareas</a>
-                <a href="{{ route('users.index') }}" class="btn btn-info">👥 Lista de Usuarios</a>
+                <a href="{{ route('tareas.index') }}" class="btn btn-primary">Ir a Tareas</a>
+                <a href="{{ route('users.index') }}" class="btn btn-primary">👥 Lista de Usuarios</a>
             </div>
         </div>
         <div class="card-body">

@@ -11,7 +11,7 @@
             <h3 class="mb-0">📋 Lista de Tareas</h3>
             <div>
                 <a href="{{ route('tareas.create') }}" class="btn btn-primary">➕ Crear Tarea</a>
-                <a href="{{ route('proyectos.index') }}" class="btn btn-secondary">Ir a Proyectos</a>
+                <a href="{{ route('proyectos.index') }}" class="btn btn-primary">Ir a Proyectos</a>
             </div>
         </div>
         <div class="card-body">
@@ -55,7 +55,7 @@
                         <button type="submit" class="btn btn-primary w-100">Filtrar</button>
                     </div>
                     <div class="col-md-2">
-                        <a href="{{ route('tareas.index') }}" class="btn btn-secondary w-100">Limpiar Filtro</a>
+                        <a href="{{ route('tareas.index') }}" class="btn btn-primary w-100">Limpiar Filtro</a>
                     </div>
                 </div>
             </form>
