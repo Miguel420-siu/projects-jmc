@@ -21,9 +21,9 @@
                     <div class="col-md-4">
                         <select name="nombre_proyecto" class="form-select">
                             <option value="">Todos los Proyectos</option>
-                            @foreach ($proyecto as $proyecto)
-                                <option value="{{ $proyecto->nombre }}" {{ request('nombre_proyecto') == $proyecto->nombre ? 'selected' : '' }}>
-                                    {{ $proyecto->nombre }}
+                            @foreach ($proyecto as $item)
+                                <option value="{{ $item->nombre }}" {{ request('nombre_proyecto') == $item->nombre ? 'selected' : '' }}>
+                                    {{ $item->nombre }}
                                 </option>
                             @endforeach
                         </select>

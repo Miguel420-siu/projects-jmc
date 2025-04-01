@@ -4,21 +4,27 @@ namespace App\Http\Controllers;
 
 use App\Models\Tarea;
 use App\Models\Proyectos;
+use App\Models\Proyecto;
 use Illuminate\Http\Request;
 
 class TareaController extends Controller
 {
     public function index(Request $request)
     {
+        // Obtén todas las tareas
         $query = Tarea::query();
 
+        // Filtrar por nombre del proyecto si se selecciona uno
         if ($request->has('nombre_proyecto') && $request->nombre_proyecto != '') {
             $query->where('nombre_proyecto', $request->nombre_proyecto);
         }
 
         $tareas = $query->get();
 
-        return view('tareas.index', compact('tareas'));
+        // Obtén todos los proyectos para el filtro
+        $proyecto = Proyectos::all();
+
+        return view('tareas.index', compact('tareas', 'proyecto'));
     }
 
     public function create()
