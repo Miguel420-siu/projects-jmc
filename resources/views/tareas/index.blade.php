@@ -1,9 +1,10 @@
-{{-- filepath: c:\Users\pc\Downloads\projectsj\resources\views\tareas\index.blade.php --}}
+{{-- filepath: c:\Users\pc\Documents\Trabajos\Desarrollo\pruebas laravel\projects-jmc\resources\views\tareas\index.blade.php --}}
 @extends('layouts.app')
 
 @section('title', 'Lista de Tareas')
 
 @section('content')
+@auth
 <div class="container mt-5">
     <div class="card shadow">
         <div class="card-header d-flex justify-content-between align-items-center">
@@ -111,4 +112,8 @@
         </div>
     </div>
 </div>
+@endauth
+@guest
+    <script>alert('Debes iniciar sesión para ver tus tareas.');</script>
+@endguest
 @endsection

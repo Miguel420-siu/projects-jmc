@@ -46,10 +46,9 @@
                     </select>
                 </div>
 
-                <div class="d-flex justify-content-between">
-                    <a href="{{ route('tareas.index') }}" class="btn btn-secondary">⬅ Volver al Índice</a>
-                    <button type="submit" class="btn btn-primary">Guardar</button>
-                </div>
+                <button type="submit" class="btn btn-primary w-100">Guardar Tarea</button>
+                <a href="{{ route('tareas.index') }}" class="btn btn-secondary w-100 mt-2">Cancelar</a>
+                
             </form>
         </div>
     </div>
