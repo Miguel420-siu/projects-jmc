@@ -11,7 +11,7 @@ class RegisterController extends Controller
 {
     public function show(){
         if (Auth::check()) {
-            return redirect('/tareas');
+            return redirect('/proyectos');
         }
         return view('auth.register');
     }

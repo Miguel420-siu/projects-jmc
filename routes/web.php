@@ -5,7 +5,6 @@ use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\TareaController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\ProyectoController;
 use App\Http\Controllers\ProyectosController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,7 +19,7 @@ Route::post('/register', [RegisterController::class, 'register']);
 Route::get('/login', [LoginController::class, 'show']);
 Route::post('/login', [LoginController::class, 'login']);
 
-Route::post('/logout', [LogoutController::class, 'logout']);
+Route::get('/logout', [LogoutController::class, 'logout']);
 
 Route::resource('users', UserController::class);
 // Rutas para tareas

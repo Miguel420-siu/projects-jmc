@@ -1,4 +1,4 @@
-{{-- filepath: c:\Users\AdminSena\Documents\projects-jmc\resources\views\proyectos\index.blade.php --}}
+{{-- filepath: c:\Users\pc\Documents\Trabajos\Trabajos SENA\Desarrollo de aplicaciones en php\scfinal\final\projects-jmc-1\resources\views\proyectos\index.blade.php --}}
 @extends('layouts.app')
 
 @section('title', 'Lista de Proyectos')
@@ -7,6 +7,12 @@
 <div class="container mt-5">
     <div class="card shadow">
         <div class="card-header d-flex justify-content-between align-items-center">
+            <div class="header-buttons">
+                {{-- Botón de cerrar sesión --}}
+                <form action="/logout" method="get" class="m-0 d-inline">
+                    <button type="submit" class="btn btn-danger text-white">Cerrar Sesión</button>
+                </form>
+            </div>
             <h3 class="mb-0">📋 Lista de Proyectos</h3>
             <div>
                 <a href="{{ route('proyectos.create') }}" class="btn btn-primary">➕ Crear Proyecto</a>
