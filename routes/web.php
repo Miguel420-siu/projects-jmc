@@ -28,6 +28,8 @@ Route::resource('tareas', TareaController::class);
 // Rutas para proyectos
 Route::resource('proyectos', ProyectosController::class);
 
+Route::get('/tareas', [TareaController::class, 'index'])->name('tareas.index');
+
 
 
 
