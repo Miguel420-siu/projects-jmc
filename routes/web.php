@@ -25,7 +25,7 @@ Route::post('/logout', [LogoutController::class, 'logout']);
 Route::resource('users', UserController::class);
 // Rutas para tareas
 Route::resource('tareas', TareaController::class);
-
+Route::get('/tareas', [TareaController::class, 'index'])->name('tareas.index');
 // Rutas para proyectos
 Route::resource('proyectos', ProyectosController::class);
 
