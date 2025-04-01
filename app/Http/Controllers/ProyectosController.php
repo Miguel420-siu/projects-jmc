@@ -41,20 +41,12 @@ class ProyectosController extends Controller
             'descripcion' => 'nullable|string',
             'fecha_inicio' => 'required|date',
             'fecha_fin' => 'nullable|date|after_or_equal:fecha_inicio',
-            'estado' => 'required|in:activo,completado,pendiente',
             'miembros' => 'required|string',
         ]);
 
         // Crear proyecto
-        Proyectos::create([
-            'nombre' => $request->nombre,
-            'descripcion' => $request->descripcion,
-            'fecha_inicio' => $request->fecha_inicio,
-            'fecha_fin' => $request->fecha_fin,
-            'estado' => $request->estado,
-            'miembros' => $request->miembros,
-        ]);
-
+        Proyectos::create($request->all());
+        
         return redirect()->route('proyectos.index')->with('success', 'Proyecto creado correctamente.');
     }
 

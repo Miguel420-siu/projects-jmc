@@ -43,16 +43,6 @@
                     <input type="text" class="form-control" id="miembros" name="miembros" placeholder="Ingrese los miembros del proyecto (separados por comas)">
                 </div>
 
-                <!-- Campo Estado -->
-                <div class="mb-3">
-                    <label for="estado" class="form-label">Estado</label>
-                    <select class="form-select" id="estado" name="estado" required>
-                        <option value="pendiente">Pendiente</option>
-                        <option value="en_progreso">En Progreso</option>
-                        <option value="completado">Completado</option>
-                    </select>
-                </div>
-
                 <!-- Botones -->
                 <div class="d-flex justify-content-between">
                     <a href="{{ route('proyectos.index') }}" class="btn btn-secondary">⬅ Volver al Índice</a>
