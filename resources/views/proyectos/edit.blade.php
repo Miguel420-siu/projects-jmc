@@ -1,4 +1,3 @@
-{{-- filepath: c:\Users\AdminSena\Documents\projects-jmc\resources\views\proyectos\edit.blade.php --}}
 @extends('layouts.app')
 
 @section('title', 'Editar Proyecto')
@@ -63,4 +62,24 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let fechaInicio = document.getElementById("fecha_inicio");
+        let fechaFin = document.getElementById("fecha_fin");
+        let today = new Date().toISOString().split("T")[0];
+
+        fechaInicio.min = today; // Evita fechas anteriores a la actual
+
+        // Si la fecha de inicio ya está seleccionada, ajusta la fecha mínima de fin
+        if (fechaInicio.value) {
+            fechaFin.min = fechaInicio.value;
+        }
+
+        fechaInicio.addEventListener("change", function() {
+            fechaFin.min = fechaInicio.value; // La fecha de fin no puede ser anterior a la de inicio
+        });
+    });
+</script>
+
 @endsection

@@ -25,7 +25,7 @@
 
                 <div class="mb-3">
                     <label for="fecha_limite" class="form-label">Fecha Límite</label>
-                    <input type="date" name="fecha_limite" class="form-control" value="{{ $tarea->fecha_limite }}" required>
+                    <input type="date" name="fecha_limite" id="fecha_limite" class="form-control" value="{{ $tarea->fecha_limite }}" required>
                 </div>
 
                 <div class="mb-3">
@@ -65,5 +65,14 @@
         </div>
     </div>
 </div>
-@endsection
 
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let fechaLimite = document.getElementById("fecha_limite");
+        let today = new Date().toISOString().split("T")[0];
+
+        fechaLimite.min = today; // Restringe la fecha mínima a la actual
+    });
+</script>
+
+@endsection
