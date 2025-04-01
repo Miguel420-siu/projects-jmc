@@ -2,7 +2,10 @@
 
 @section('content') <!-- Sección del contenido de esta vista -->
 
-    <div class="mb-3">
+    <div class="mb-3 d-flex justify-content-between">
+        <!-- Botón para regresar a la lista de proyectos -->
+        <a href="{{ route('proyectos.index') }}" class="btn btn-secondary">⬅️ Regresar</a>
+
         <!-- Formulario de búsqueda -->
         <form action="{{ route('users.index') }}" method="GET" class="d-flex">
             <input type="text" name="search" class="form-control" placeholder="Buscar por nombre, email o rol" value="{{ request()->search }}">

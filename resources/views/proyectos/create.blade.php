@@ -62,4 +62,19 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let fechaInicio = document.getElementById("fecha_inicio");
+        let fechaFin = document.getElementById("fecha_fin");
+        let today = new Date().toISOString().split("T")[0];
+
+        fechaInicio.min = today; // Fecha de inicio mínima es hoy
+
+        fechaInicio.addEventListener("change", function() {
+            fechaFin.min = fechaInicio.value; // La fecha de fin no puede ser anterior a la de inicio
+        });
+    });
+</script>
+
 @endsection

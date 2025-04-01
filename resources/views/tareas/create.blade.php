@@ -53,4 +53,13 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let fechaInput = document.getElementById("fecha_limite");
+        let today = new Date().toISOString().split("T")[0]; // Obtiene la fecha de hoy en formato YYYY-MM-DD
+        fechaInput.min = today; // Establece la fecha mínima
+    });
+</script>
+
 @endsection

@@ -17,6 +17,7 @@
             <div>
                 <a href="{{ route('proyectos.create') }}" class="btn btn-primary">➕ Crear Proyecto</a>
                 <a href="{{ route('tareas.index') }}" class="btn btn-secondary">Ir a Tareas</a>
+                <a href="{{ route('users.index') }}" class="btn btn-info">👥 Lista de Usuarios</a>
             </div>
         </div>
         <div class="card-body">
