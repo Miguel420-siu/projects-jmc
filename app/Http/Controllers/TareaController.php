@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Tarea;
 use App\Models\Proyectos;
-use App\Models\Proyecto;
 use Illuminate\Http\Request;
 
 class TareaController extends Controller
@@ -29,12 +28,18 @@ class TareaController extends Controller
             $query->where('prioridad', $request->prioridad);
         }
 
+        // Filtrar por fecha de fin (fecha_limite)
+        if ($request->filled('fecha_fin_filter')) {
+            $query->whereDate('fecha_limite', '=', $request->fecha_fin_filter);  // Filtra solo por fecha exacta
+        }
+
         // Obtener las tareas filtradas
         $tareas = $query->get();
 
         // Obtener los proyectos del usuario autenticado para los filtros
         $proyecto = Proyectos::where('user_id', auth()->id())->get();
 
+        // Retornar la vista con las tareas y los proyectos
         return view('tareas.index', compact('tareas', 'proyecto'));
     }
 
@@ -43,7 +48,6 @@ class TareaController extends Controller
         // Obtener solo los proyectos del usuario autenticado
         $proyectos = Proyectos::where('user_id', auth()->id())->get();
         
-
         return view('tareas.create', compact('proyectos'));
     }
 
@@ -97,10 +101,9 @@ class TareaController extends Controller
         return view('tareas.show', compact('tarea'));
     }
 
-
     public function destroy(Tarea $tarea)
     {
         $tarea->delete();
-        return redirect()->route('proyectos.index')->with('success', 'El proyecto se eliminó correctamente.');
+        return redirect()->route('tareas.index')->with('success', 'La tarea fue eliminada correctamente.');
     }
 }

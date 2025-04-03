@@ -1,36 +1,45 @@
-{{-- filepath: c:\Users\pc\Documents\Trabajos\Desarrollo\pruebas laravel\projects-jmc\resources\views\auth\login.blade.php --}}
-@extends('layouts.app')
-
-@section('content')
-<div class="hero">
-    <div class="hero-text">
-        <h2>Iniciar Sesión</h2>
-        <p>Accede a tu cuenta para gestionar tus proyectos y tareas.</p>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - Projects-JMC</title>
+    <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+    <script>
+        function redirectToWelcome() {
+            window.location.href = "/";
+        }
+    </script>
+</head>
+<body>
+    <div class="left-section">
+        <div class="footer-text" onclick="redirectToWelcome()">Projects-JMC</div>
     </div>
-    <div class="contact-box">
-        {{-- Mostrar errores de validación --}}
-        @if ($errors->any())
-            <div style="color: red; margin-bottom: 15px;">
-                <ul style="list-style: none; padding: 0;">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+    <div class="right-section">
+        <div class="contact-box">
+            <h2>Iniciar Sesión</h2>
+            <p style="text-align: center;">Accede a tu cuenta para gestionar tus proyectos y tareas.</p>
 
-        <form action="/login" method="POST" style="display: flex; flex-direction: column; align-items: center;">
-            @csrf
-            <div style="margin-bottom: 15px; width: 100%;">
-                <input type="email" name="email" placeholder="Correo Electrónico" value="{{ old('email') }}" required style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
-            </div>
-            <div style="margin-bottom: 15px; width: 100%;">
-                <input type="password" name="password" placeholder="Contraseña" required style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
-            </div>
-            <button type="submit" style="padding: 10px 20px; background-color: #6A6E72; color: white; border: none; border-radius: 5px; cursor: pointer;">
-                Iniciar Sesión
-            </button>
-        </form>
+            {{-- Mostrar errores de validación --}}
+            @if ($errors->any())
+                <div class="error-messages">
+                    <ul style="list-style: none; padding: 0;">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <form action="/login" method="POST">
+                @csrf
+                <input type="email" name="email" placeholder="Correo Electrónico" value="{{ old('email') }}" required>
+                <input type="password" name="password" placeholder="Contraseña" required>
+                <button type="submit">Iniciar Sesión</button>
+                <div class="register-link">
+                    <p>¿No estás registrado? <a href="/register">Regístrate aquí</a></p>
+                </div>
+        </div>
     </div>
-</div>
-@endsection
+</body>
+</html>

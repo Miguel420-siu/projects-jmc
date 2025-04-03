@@ -1,4 +1,3 @@
-{{-- filepath: c:\Users\pc\Documents\Trabajos\Desarrollo\pruebas laravel\projects-jmc\resources\views\tareas\index.blade.php --}}
 @extends('layouts.app')
 
 @section('title', 'Lista de Tareas')
@@ -11,7 +10,6 @@
             <h3 class="mb-0">📋 Lista de Tareas</h3>
             <div>
                 <a href="{{ route('tareas.create') }}" class="btn btn-primary">➕ Crear Tarea</a>
-                <a href="{{ route('proyectos.index') }}" class="btn btn-primary">Ir a Proyectos</a>
             </div>
         </div>
         <div class="card-body">
@@ -19,7 +17,7 @@
             <form method="GET" action="{{ route('tareas.index') }}" class="mb-4">
                 <div class="row g-2">
                     <!-- Filtro por nombre del proyecto -->
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <select name="nombre_proyecto" class="form-select">
                             <option value="">Todos los Proyectos</option>
                             @foreach ($proyecto as $item)
@@ -31,7 +29,7 @@
                     </div>
 
                     <!-- Filtro por estado -->
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <select name="estado" class="form-select">
                             <option value="">Todos los Estados</option>
                             <option value="pendiente" {{ request('estado') == 'pendiente' ? 'selected' : '' }}>Pendiente</option>
@@ -41,7 +39,7 @@
                     </div>
 
                     <!-- Filtro por prioridad -->
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <select name="prioridad" class="form-select">
                             <option value="">Todas las Prioridades</option>
                             <option value="alta" {{ request('prioridad') == 'alta' ? 'selected' : '' }}>Alta</option>
@@ -50,12 +48,16 @@
                         </select>
                     </div>
 
-                    <!-- Botones de acción -->
+                    <!-- Filtro por Fecha de Fin -->
                     <div class="col-md-2">
-                        <button type="submit" class="btn btn-primary w-100">Filtrar</button>
+                        <label for="fecha_fin_filter" class="form-label">Fecha de Fin</label>
+                        <input type="date" name="fecha_fin_filter" id="fecha_fin_filter" class="form-control" value="{{ request('fecha_fin_filter') }}">
                     </div>
-                    <div class="col-md-2">
-                        <a href="{{ route('tareas.index') }}" class="btn btn-primary w-100">Limpiar Filtro</a>
+
+                    <!-- Botones de acción en una sola línea -->
+                    <div class="col-md-3 d-flex justify-content-start align-items-center">
+                        <button type="submit" class="btn btn-primary w-50 me-2">Filtrar</button>
+                        <a href="{{ route('tareas.index') }}" class="btn btn-secondary w-50">Limpiar Filtro</a>
                     </div>
                 </div>
             </form>
@@ -113,6 +115,7 @@
     </div>
 </div>
 @endauth
+
 @guest
     <script>alert('Debes iniciar sesión para ver tus tareas.');</script>
 @endguest

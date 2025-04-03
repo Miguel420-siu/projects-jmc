@@ -34,3 +34,8 @@ Route::get('/tareas', [TareaController::class, 'index'])->name('tareas.index');
 //rutas para comentarios
 Route::post('/comentarios', [ComentarioController::class, 'store'])->name('comentarios.store');
 
+//ruta para dashboard 
+Route::get('/dashboard', function () {
+    return view('dashboard');
+});
+

@@ -3,12 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Proyectos;
-
-use App\Models\Tarea; // Ensure the Tarea model exists in this namespace
-// Ensure the Proyectos model exists in this namespace
-
-// If the model is in a different namespace, update the import statement accordingly, e.g.:
-// use App\OtherNamespace\Proyectos;
+use App\Models\Tarea;
 use Illuminate\Http\Request;
 
 class ProyectosController extends Controller
@@ -16,12 +11,39 @@ class ProyectosController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        // Obtener solo los proyectos del usuario autenticado
-        $proyectos = auth()->user()->proyectos()->get();
+        // Iniciar la consulta para obtener proyectos del usuario autenticado
+        $query = auth()->user()->proyectos();
 
-        return view('proyectos.index', compact('proyectos'));
+        // Filtro por nombre del proyecto (mostrar solo los proyectos que están creados)
+        if ($request->filled('nombre')) {
+            $query->where('nombre', $request->nombre);
+        }
+
+        // Filtro por estado del proyecto
+        if ($request->filled('estado')) {
+            $query->where('estado', $request->estado);
+        }
+
+        // Filtro por fecha de inicio
+        if ($request->filled('fecha_inicio')) {
+            $query->whereDate('fecha_inicio', '=', $request->fecha_inicio);
+        }
+
+        // Filtro por fecha de fin
+        if ($request->filled('fecha_fin')) {
+            $query->whereDate('fecha_fin', '=', $request->fecha_fin);
+        }
+
+        // Obtener los proyectos filtrados
+        $proyectos = $query->get();
+
+        // Obtener los proyectos para el filtro de nombre
+        $proyectosDisponibles = auth()->user()->proyectos()->get();
+
+        // Retornar la vista con los proyectos filtrados
+        return view('proyectos.index', compact('proyectos', 'proyectosDisponibles'));
     }
 
     /**
@@ -46,12 +68,12 @@ class ProyectosController extends Controller
             'miembros' => 'required|string',
         ]);
 
-        // Crear proyecto
-        // Crear el proyecto asociado al usuario autenticado
+        // Crear proyecto asociado al usuario autenticado
         auth()->user()->proyectos()->create($request->all());
 
         return redirect()->route('proyectos.index')->with('success', 'Proyecto creado correctamente.');
     }
+
     /**
      * Display the specified resource.
      */
@@ -70,7 +92,7 @@ class ProyectosController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(proyectos $proyecto)
+    public function edit(Proyectos $proyecto)
     {
         return view('proyectos.edit', compact('proyecto'));
     }
@@ -98,14 +120,14 @@ class ProyectosController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(proyectos $proyecto)
+    public function destroy(Proyectos $proyecto)
     {
         $proyecto->delete();
+
         // Eliminar las tareas asociadas al proyecto
         Tarea::where('nombre_proyecto', $proyecto->nombre)->delete();
-        // Redirigir a la lista de proyectos con un mensaje de éxito
+
         return redirect()->route('proyectos.index')->with('success', 'El proyecto se eliminó correctamente.');
-        
     }
 
     public function mostrarTareas($proyectoId)

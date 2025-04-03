@@ -18,6 +18,11 @@ return new class extends Migration
             $table->date('fecha_limite');
             $table->string('prioridad');
             $table->enum('estado', ['pendiente', 'en_progreso', 'completada'])->default('pendiente');
+
+            // Agregar la columna proyecto_id como clave foránea
+            $table->unsignedBigInteger('proyecto_id')->nullable();
+            $table->foreign('proyecto_id')->references('id')->on('proyectos')->onDelete('cascade');
+            
             $table->timestamps();
         });
     }
