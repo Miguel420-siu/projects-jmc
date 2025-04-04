@@ -11,9 +11,11 @@
     <div class="card shadow-lg" id="card-proyectos">
         <div class="card-header d-flex justify-content-between align-items-center bg-primary text-white">
             <h3 class="mb-0">📋 Lista de Proyectos</h3>
+            @role('Admin')
             <div>
                 <a href="{{ route('proyectos.create') }}" class="btn btn-light">➕ Crear Proyecto</a>
             </div>
+            @endrole
         </div>
         <div class="card-body" id="card-body-proyectos">
             <!-- Filtros -->
@@ -99,12 +101,14 @@
                                     </td>
                                     <td>
                                         <a href="{{ route('proyectos.show', $proyecto) }}" class="btn btn-sm btn-outline-primary" title="Ver Proyecto">👁️</a>
+                                        @role('Admin')
                                         <a href="{{ route('proyectos.edit', $proyecto) }}" class="btn btn-sm btn-outline-warning" title="Editar Proyecto">✏️</a>
                                         <form action="{{ route('proyectos.destroy', $proyecto) }}" method="POST" class="d-inline" onsubmit="return confirm('¿Estás seguro de eliminar este proyecto?');">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-outline-danger" title="Eliminar Proyecto">🗑️</button>
                                         </form>
+                                        @endrole
                                     </td>
                                 </tr>
                             @endforeach

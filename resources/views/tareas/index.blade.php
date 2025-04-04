@@ -8,9 +8,11 @@
     <div class="card shadow">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h3 class="mb-0">📋 Lista de Tareas</h3>
+            @role('Admin')
             <div>
                 <a href="{{ route('tareas.create') }}" class="btn btn-primary">➕ Crear Tarea</a>
             </div>
+            @endrole
         </div>
         <div class="card-body">
             <!-- Filtros -->
@@ -98,12 +100,14 @@
                                     </td>
                                     <td>
                                         <a href="{{ route('tareas.show', $tarea) }}" class="btn btn-sm btn-outline-info">👁️ Ver</a>
+                                        @role('Admin')
                                         <a href="{{ route('tareas.edit', $tarea) }}" class="btn btn-sm btn-outline-warning">✏️ Editar</a>
                                         <form action="{{ route('tareas.destroy', $tarea) }}" method="POST" class="d-inline">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Estás seguro de eliminar esta tarea?')">🗑️ Eliminar</button>
                                         </form>
+                                        @endrole
                                     </td>
                                 </tr>
                             @endforeach

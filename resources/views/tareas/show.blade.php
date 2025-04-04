@@ -39,7 +39,14 @@
             </table>
             <div class="mt-4 d-flex justify-content-between">
                 <a href="{{ route('tareas.index') }}" class="btn btn-secondary">⬅ Volver a Tareas</a>
+                @role('Admin')
                 <a href="{{ route('tareas.edit', $tarea) }}" class="btn btn-warning">✏ Editar Tarea</a>
+                <form action="{{ route('tareas.destroy', $tarea) }}" method="POST" class="d-inline">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar esta tarea?')">🗑️ Eliminar Tarea</button>
+                </form>
+                @endrole
             </div>
         </div>
     </div>

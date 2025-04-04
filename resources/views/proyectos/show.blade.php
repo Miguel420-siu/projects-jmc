@@ -82,6 +82,7 @@
 
             <div class="mt-4 d-flex justify-content-between">
                 <a href="{{ route('proyectos.index') }}" class="btn btn-secondary">⬅️ Volver a Proyectos</a>
+                @role('Admin')
                 <div>
                     <a href="{{ route('proyectos.edit', $proyecto) }}" class="btn btn-warning">✏️ Editar Proyecto</a>
                     <form action="{{ route('proyectos.destroy', $proyecto) }}" method="POST" class="d-inline">
@@ -90,6 +91,7 @@
                         <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar este proyecto?')">🗑️ Eliminar Proyecto</button>
                     </form>
                 </div>
+                @endrole
             </div>
         </div>
     </div>

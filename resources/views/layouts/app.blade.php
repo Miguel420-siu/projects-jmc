@@ -142,9 +142,11 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/tareas">Tareas</a>
                         </li>
+                        @role('Admin')
                         <li class="nav-item">
                             <a class="nav-link" href="/users">Usuarios</a>
                         </li>
+                        @endrole
                     </ul>
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
