@@ -1,111 +1,185 @@
-{{-- filepath: c:\Users\AdminSena\Documents\projects-jmc\resources\views\proyectos\create.blade.php --}}
-
 @extends('layouts.app')
 
 @section('title', 'Crear Proyecto')
 
 @section('content')
-
 @auth
-<!-- Agregamos el enlace a Animate.css directamente en el archivo -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-
-<div class="container mt-5">
-    <div class="card shadow animate__animated animate__fadeInUp">
-        <div class="card-header text-center">
-            <h3 class="animate__animated animate__fadeIn">➕ Crear Nuevo Proyecto</h3>
+<div class="container py-4">
+    <!-- Tarjeta principal con animación -->
+    <div class="card border-0 shadow-lg rounded-3 overflow-hidden card-hover animated-element" data-animation="fadeInUp" data-delay="100">
+        <!-- Encabezado con gradiente animado -->
+        <div class="card-header bg-gradient-primary text-white py-3 animated-element" data-animation="fadeInDown">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-plus-circle fa-lg me-3"></i>
+                    <h3 class="h5 mb-0">Crear Nuevo Proyecto</h3>
+                </div>
+                <a href="{{ route('proyectos.index') }}" class="btn btn-outline-light btn-sm rounded-pill">
+                    <i class="fas fa-arrow-left me-1"></i> Volver
+                </a>
+            </div>
         </div>
-        <div class="card-body">
-            <form action="{{ route('proyectos.store') }}" method="POST" id="create-project-form" class="animate__animated animate__fadeIn">
+        
+        <!-- Cuerpo del formulario con animación escalonada -->
+        <div class="card-body p-4">
+            <form action="{{ route('proyectos.store') }}" method="POST" id="create-project-form">
                 @csrf
 
-                <!-- Campo Nombre -->
-                <div class="mb-3 animate__animated animate__fadeInUp">
+                <!-- Campo Nombre con animación -->
+                <div class="mb-4 animated-element" data-animation="fadeInUp" data-delay="200">
                     <label for="nombre" class="form-label">Nombre del Proyecto</label>
-                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingrese el nombre del proyecto" required>
+                    <input type="text" class="form-control form-control-lg" id="nombre" name="nombre" 
+                           placeholder="Ingrese el nombre del proyecto" required>
                 </div>
 
-                <!-- Campo Descripción -->
-                <div class="mb-3 animate__animated animate__fadeInUp">
+                <!-- Campo Descripción con animación -->
+                <div class="mb-4 animated-element" data-animation="fadeInUp" data-delay="250">
                     <label for="descripcion" class="form-label">Descripción</label>
-                    <textarea class="form-control" id="descripcion" name="descripcion" rows="3" placeholder="Ingrese una descripción"></textarea>
+                    <textarea class="form-control" id="descripcion" name="descripcion" 
+                              rows="4" placeholder="Describa el propósito del proyecto"></textarea>
                 </div>
 
-                <!-- Campo Fecha de Inicio -->
-                <div class="mb-3 animate__animated animate__fadeInUp">
-                    <label for="fecha_inicio" class="form-label">Fecha de Inicio</label>
-                    <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio" required>
+                <div class="row">
+                    <!-- Campo Fecha de Inicio con animación -->
+                    <div class="col-md-6 mb-4 animated-element" data-animation="fadeInUp" data-delay="300">
+                        <label for="fecha_inicio" class="form-label">Fecha de Inicio</label>
+                        <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio" required>
+                    </div>
+
+                    <!-- Campo Fecha de Fin con animación -->
+                    <div class="col-md-6 mb-4 animated-element" data-animation="fadeInUp" data-delay="350">
+                        <label for="fecha_fin" class="form-label">Fecha de Fin</label>
+                        <input type="date" class="form-control" id="fecha_fin" name="fecha_fin" required>
+                    </div>
                 </div>
 
-                <!-- Campo Fecha de Fin -->
-                <div class="mb-3 animate__animated animate__fadeInUp">
-                    <label for="fecha_fin" class="form-label">Fecha de Fin</label>
-                    <input type="date" class="form-control" id="fecha_fin" name="fecha_fin" required>
+                <!-- Campo Miembros con animación -->
+                <div class="mb-4 animated-element" data-animation="fadeInUp" data-delay="400">
+                    <label for="miembros" class="form-label">Miembros del Equipo</label>
+                    <input type="text" class="form-control" id="miembros" name="miembros" 
+                           placeholder="Ingrese emails de miembros separados por comas">
+                    <small class="text-muted">Ejemplo: usuario1@email.com, usuario2@email.com</small>
                 </div>
 
-                <!-- Campo Miembros -->
-                <div class="mb-3 animate__animated animate__fadeInUp">
-                    <label for="miembros" class="form-label">Miembros</label>
-                    <input type="text" class="form-control" id="miembros" name="miembros" placeholder="Ingrese los miembros del proyecto (separados por comas)">
-                </div>
-
-                <!-- Botones -->
-                <div class="d-flex justify-content-between animate__animated animate__fadeInUp">
-                    <a href="{{ route('proyectos.index') }}" class="btn btn-secondary">⬅ Volver al Índice</a>
-                    <button type="submit" class="btn btn-primary">Guardar Proyecto</button>
+                <!-- Botón de enviar con animación -->
+                <div class="d-grid gap-2 animated-element" data-animation="fadeInUp" data-delay="450">
+                    <button type="submit" class="btn btn-primary btn-lg rounded-pill">
+                        <i class="fas fa-save me-2"></i> Guardar Proyecto
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
+<style>
+    /* Estilos para el formulario */
+    .form-control {
+        border-radius: 8px;
+        padding: 12px 15px;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control:focus {
+        border-color: #4A90E2;
+        box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+    }
+    
+    textarea.form-control {
+        min-height: 120px;
+    }
+    
+    /* Animaciones personalizadas */
+    @keyframes fadeInUp {
+        from { 
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to { 
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    @keyframes fadeInDown {
+        from { 
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to { 
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .animated-element {
+        opacity: 0;
+        animation-fill-mode: forwards;
+    }
+    
+    /* Efecto hover para la tarjeta */
+    .card-hover {
+        transition: all 0.3s ease;
+    }
+    
+    .card-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Gradiente para el encabezado */
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, #4A90E2 0%, #764ba2 100%);
+    }
+</style>
+
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        let fechaInicio = document.getElementById("fecha_inicio");
-        let fechaFin = document.getElementById("fecha_fin");
-
-        let today = new Date().toISOString().split("T")[0]; // Obtener la fecha actual en formato YYYY-MM-DD
-
-        // La fecha de inicio no puede ser anterior a la fecha de hoy
+        // Animación de elementos
+        function animateElements() {
+            const elements = document.querySelectorAll('.animated-element');
+            elements.forEach(element => {
+                const animation = element.getAttribute('data-animation') || 'fadeIn';
+                const delay = parseInt(element.getAttribute('data-delay')) || 0;
+                
+                setTimeout(() => {
+                    element.style.animation = `${animation} 0.6s ease-out forwards`;
+                }, delay);
+            });
+        }
+        animateElements();
+        
+        // Validación de fechas
+        const fechaInicio = document.getElementById("fecha_inicio");
+        const fechaFin = document.getElementById("fecha_fin");
+        const today = new Date().toISOString().split("T")[0];
+        
         fechaInicio.min = today;
-
-        // Actualizar la fecha mínima de la fecha de fin cuando se cambia la fecha de inicio
+        
         fechaInicio.addEventListener("change", function() {
-            // Si se selecciona una fecha de inicio, la fecha de fin no puede ser anterior a la fecha de inicio
             fechaFin.min = fechaInicio.value;
-            // Si la fecha de fin ya está seleccionada y es menor a la fecha de inicio, ajustarla a la fecha de inicio
-            if (new Date(fechaFin.value) < new Date(fechaInicio.value)) {
+            if (fechaFin.value && new Date(fechaFin.value) < new Date(fechaInicio.value)) {
                 fechaFin.value = fechaInicio.value;
             }
         });
-
-        // Validación al intentar enviar el formulario
-        const form = document.querySelector("form");
-        form.addEventListener("submit", function(event) {
-            const fechaInicioValor = new Date(fechaInicio.value);
-            const fechaFinValor = new Date(fechaFin.value);
-
-            // Si la fecha de fin es anterior a la fecha de inicio, mostramos un mensaje
-            if (fechaFinValor < fechaInicioValor) {
+        
+        document.getElementById("create-project-form").addEventListener("submit", function(e) {
+            const fechaInicioVal = new Date(fechaInicio.value);
+            const fechaFinVal = new Date(fechaFin.value);
+            
+            if (fechaFinVal < fechaInicioVal) {
+                e.preventDefault();
                 alert("La fecha de fin no puede ser anterior a la fecha de inicio.");
-                event.preventDefault(); // Evitar que se envíe el formulario
                 return;
             }
-
-            // Si la fecha de fin es anterior a la fecha actual, mostramos un mensaje
-            if (fechaFinValor < new Date(today)) {
+            
+            if (fechaFinVal < new Date(today)) {
+                e.preventDefault();
                 alert("La fecha de fin no puede ser anterior a la fecha actual.");
-                event.preventDefault(); // Evitar que se envíe el formulario
                 return;
             }
         });
-
-        // Si la fecha de fin ya está seleccionada al cargar la página, validar la fecha de fin
-        if (fechaFin.value && new Date(fechaFin.value) < new Date(today)) {
-            alert("La fecha de fin no puede ser anterior a la fecha actual.");
-        }
     });
 </script>
-
 @endauth
 @endsection
