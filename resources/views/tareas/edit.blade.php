@@ -106,6 +106,7 @@
                             @enderror
                         </div>
 
+                       
                         <!-- Estado -->
                         <div class="mb-4">
                             <label for="estado" class="form-label fw-bold">Estado</label>

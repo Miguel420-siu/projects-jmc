@@ -22,6 +22,8 @@ return new class extends Migration
             // Agregar la columna proyecto_id como clave foránea
             $table->unsignedBigInteger('proyecto_id')->nullable();
             $table->foreign('proyecto_id')->references('id')->on('proyectos')->onDelete('cascade');
+        
+            $table->foreignId('asignado_a')->nullable()->constrained('users')->onDelete('set null');
             
             $table->timestamps();
         });

@@ -80,6 +80,47 @@
                 </table>
             @endif
 
+            <h5 class="mt-4">Usuarios Asignados:</h5>
+            <ul>
+                @foreach ($proyecto->usuarios as $user)
+                    <li>
+                        {{ $user->name }}
+                        @role('Admin')
+                        <form action="{{ route('proyectos.eliminarUsuario', $proyecto) }}" method="POST" class="d-inline">
+                            @csrf
+                            <input type="hidden" name="user_id" value="{{ $user->id }}">
+                            <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                        </form>
+                        @endrole
+                    </li>
+                @endforeach
+            </ul>
+
+            @role('Admin')
+            <form action="{{ route('proyectos.asignarUsuario', $proyecto) }}" method="POST">
+                @csrf
+                <select name="user_id" class="form-select">
+                    @foreach ($usuarios as $user)
+                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                    @endforeach
+                </select>
+                <button type="submit" class="btn btn-primary mt-2">Asignar Usuario</button>
+            </form>
+            @endrole
+
+            <!-- Cambiar estado del proyecto -->
+            <form action="{{ route('proyectos.cambiarEstado', $proyecto) }}" method="POST" class="mt-3">
+                @csrf
+                @method('PATCH')
+                <label for="estado" class="form-label fw-bold">Estado del Proyecto</label>
+                <select name="estado" class="form-select">
+                    <option value="pendiente" {{ $proyecto->estado == 'pendiente' ? 'selected' : '' }}>Pendiente</option>
+                    <option value="en_progreso" {{ $proyecto->estado == 'en_progreso' ? 'selected' : '' }}>En Progreso</option>
+                    <option value="completado" {{ $proyecto->estado == 'completado' ? 'selected' : '' }}>Completado</option>
+                </select>
+                <button type="submit" class="btn btn-success mt-2">Actualizar Estado</button>
+            </form>
+
             <div class="mt-4 d-flex justify-content-between">
                 <a href="{{ route('proyectos.index') }}" class="btn btn-secondary">⬅️ Volver a Proyectos</a>
                 @role('Admin')

@@ -50,8 +50,9 @@ class User extends Authenticatable
     public function setPasswordAttribute($value){
         $this->attributes['password'] = bcrypt($value);
     }
+
     public function proyectos()
     {
-        return $this->hasMany(Proyectos::class);
+        return $this->belongsToMany(Proyectos::class, 'proyecto_user', 'user_id', 'proyecto_id')->withTimestamps();
     }
 }

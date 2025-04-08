@@ -35,18 +35,27 @@ Route::put('/tareas/{tarea}', [TareaController::class, 'update'])->name('tareas.
 Route::delete('/tareas/{tarea}', [TareaController::class, 'destroy'])->name('tareas.destroy')->middleware(['auth', 'role:Admin']);
 Route::get('/tareas/{tarea}/estado', [TareaController::class, 'estado'])->name('tareas.estado')->middleware(['auth', 'role:Colaborador']);
 Route::put('/tareas/{tarea}/estado', [TareaController::class, 'updateEstado'])->name('tareas.updateEstado')->middleware(['auth', 'role:Colaborador']);
-
+Route::post('/tareas/{tarea}/asignar-usuario', [TareaController::class, 'asignarUsuario'])->name('tareas.asignarUsuario')->middleware('role:Admin');
+Route::patch('/tareas/{tarea}/cambiar-estado', [TareaController::class, 'cambiarEstado'])->name('tareas.cambiarEstado');
 
 
 // Rutas para proyectos
 Route::get('/proyectos', [ProyectosController::class, 'index'])->name('proyectos.index');
 Route::get('/proyectos/create', [ProyectosController::class, 'create'])->name('proyectos.create')->middleware(['auth', 'role:Admin']);
 Route::post('/proyectos', [ProyectosController::class, 'store'])->name('proyectos.store')->middleware(['auth', 'role:Admin']);
-Route::get('/proyectos/{proyecto}', [ProyectosController::class, 'show'])->name('proyectos.show');
 Route::get('/proyectos/{proyecto}/edit', [ProyectosController::class, 'edit'])->name('proyectos.edit')->middleware(['auth', 'role:Admin']);
 Route::put('/proyectos/{proyecto}', [ProyectosController::class, 'update'])->name('proyectos.update')->middleware(['auth', 'role:Admin']);
 Route::delete('/proyectos/{proyecto}', [ProyectosController::class, 'destroy'])->name('proyectos.destroy')->middleware(['auth', 'role:Admin']);
 
+// Rutas para administradores
+Route::middleware('role:Admin')->group(function () {
+    Route::post('/proyectos/{proyecto}/asignar-usuario', [ProyectosController::class, 'asignarUsuario'])->name('proyectos.asignarUsuario');
+    Route::post('/proyectos/{proyecto}/eliminar-usuario', [ProyectosController::class, 'eliminarUsuario'])->name('proyectos.eliminarUsuario');
+});
+
+// Rutas accesibles para todos los usuarios
+Route::get('/proyectos/{proyecto}', [ProyectosController::class, 'show'])->name('proyectos.show');
+Route::patch('/proyectos/{proyecto}/cambiar-estado', [ProyectosController::class, 'cambiarEstado'])->name('proyectos.cambiarEstado');
 
 Route::get('/tareas', [TareaController::class, 'index'])->name('tareas.index');
 

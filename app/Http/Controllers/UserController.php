@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Tarea;
 
 class UserController extends Controller
 {
@@ -80,5 +81,13 @@ class UserController extends Controller
     {
         $user->delete();
         return redirect()->route('users.index')->with('success', 'Usuario eliminado correctamente.');
+    }
+
+    public function dashboard()
+    {
+        $proyectos = auth()->user()->proyectos;
+        $tareas = Tarea::where('asignado_a', auth()->id())->get();
+
+        return view('dashboard', compact('proyectos', 'tareas'));
     }
 }

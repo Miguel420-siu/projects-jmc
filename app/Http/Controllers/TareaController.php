@@ -5,48 +5,51 @@ namespace App\Http\Controllers;
 use App\Models\Tarea;
 use App\Models\Proyectos;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class TareaController extends Controller
 {
     public function index(Request $request)
     {
-        // Obtener solo las tareas del usuario autenticado
-        $query = Tarea::where('user_id', auth()->id());
+        // Si el usuario es administrador, muestra todas las tareas
+        if (auth()->user()->hasRole('Admin')) {
+            $tareas = Tarea::query();
+        } else {
+            // Si es un usuario normal, muestra solo las tareas asignadas a él
+            $tareas = Tarea::where('asignado_a', auth()->id());
+        }
 
-        // Filtrar por nombre del proyecto
+        // Aplicar filtros adicionales si existen
         if ($request->filled('nombre_proyecto')) {
-            $query->where('nombre_proyecto', $request->nombre_proyecto);
+            $tareas->where('nombre_proyecto', $request->nombre_proyecto);
         }
 
-        // Filtrar por estado
         if ($request->filled('estado')) {
-            $query->where('estado', $request->estado);
+            $tareas->where('estado', $request->estado);
         }
 
-        // Filtrar por prioridad
         if ($request->filled('prioridad')) {
-            $query->where('prioridad', $request->prioridad);
+            $tareas->where('prioridad', $request->prioridad);
         }
 
-        // Filtrar por fecha de fin (fecha_limite)
         if ($request->filled('fecha_fin_filter')) {
-            $query->whereDate('fecha_limite', '=', $request->fecha_fin_filter);  // Filtra solo por fecha exacta
+            $tareas->whereDate('fecha_limite', '<=', $request->fecha_fin_filter);
         }
 
         // Obtener las tareas filtradas
-        $tareas = $query->get();
+        $tareas = $tareas->get();
 
-        // Obtener los proyectos del usuario autenticado para los filtros
-        $proyecto = Proyectos::where('user_id', auth()->id())->get();
+        // Obtener los proyectos para el filtro
+        $proyecto = Proyectos::all();
 
-        // Retornar la vista con las tareas y los proyectos
         return view('tareas.index', compact('tareas', 'proyecto'));
     }
 
     public function create()
     {
+        $proyectos = Proyectos::all();
         // Obtener solo los proyectos del usuario autenticado
-        $proyectos = Proyectos::where('user_id', auth()->id())->get();
+        /*$proyectos = Proyectos::where('user_id', auth()->id())->get();*/
         
         return view('tareas.create', compact('proyectos'));
     }
@@ -73,10 +76,13 @@ class TareaController extends Controller
         return redirect()->route('tareas.index')->with('success', 'Tarea creada exitosamente.');
     }
 
-    public function edit(Tarea $tarea)
+    public function edit($id)
     {
-        $proyectos = Proyectos::all(); // Para mostrar en el formulario de edición
-        return view('tareas.edit', compact('tarea', 'proyectos'));
+        $tarea = Tarea::findOrFail($id); // Encuentra la tarea por su ID
+        $proyectos = Proyectos::all(); // Obtén todos los proyectos disponibles
+        $usuarios = User::all(); // Obtén todos los usuarios disponibles
+
+        return view('tareas.edit', compact('tarea', 'proyectos', 'usuarios'));
     }
 
     public function update(Request $request, Tarea $tarea)
@@ -88,6 +94,7 @@ class TareaController extends Controller
             'fecha_limite' => 'required|date',
             'prioridad' => 'required|string',
             'estado' => 'required|in:pendiente,en_progreso,completada',
+            'asignado_a' => 'nullable|exists:users,id', // Validar si el usuario existe
         ]);
 
         $tarea->update($request->all());
@@ -95,15 +102,49 @@ class TareaController extends Controller
         return redirect()->route('tareas.index')->with('success', 'Tarea actualizada exitosamente.');
     }
 
-    public function show(Tarea $tarea)
+    public function show($id)
     {
-        // Retorna la vista de detalles de la tarea
-        return view('tareas.show', compact('tarea'));
+        $tarea = Tarea::findOrFail($id); // Encuentra la tarea por su ID
+        $usuarios = User::all(); // Obtén todos los usuarios disponibles
+
+        return view('tareas.show', compact('tarea', 'usuarios'));
     }
 
     public function destroy(Tarea $tarea)
     {
         $tarea->delete();
         return redirect()->route('tareas.index')->with('success', 'La tarea fue eliminada correctamente.');
+    }
+
+    public function asignarUsuario(Request $request, Tarea $tarea)
+    {
+        // Validar que el usuario seleccionado exista
+        $request->validate([
+            'asignado_a' => 'nullable|exists:users,id',
+        ]);
+
+        // Actualizar el campo 'asignado_a' en la tarea
+        $tarea->update([
+            'asignado_a' => $request->asignado_a,
+        ]);
+
+        // Redirigir con un mensaje de éxito
+        return redirect()->route('tareas.show', $tarea)->with('success', 'Usuario asignado correctamente.');
+    }
+
+    public function cambiarEstado(Request $request, Tarea $tarea)
+    {
+        // Validar el estado enviado
+        $request->validate([
+            'estado' => 'required|string|in:pendiente,en_progreso,completada',
+        ]);
+
+        // Actualizar el estado de la tarea
+        $tarea->update([
+            'estado' => $request->estado,
+        ]);
+
+        // Redirigir con un mensaje de éxito
+        return redirect()->route('tareas.show', $tarea)->with('success', 'Estado de la tarea actualizado correctamente.');
     }
 }

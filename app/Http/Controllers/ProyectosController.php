@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Proyectos;
 use App\Models\Tarea;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class ProyectosController extends Controller
 {
@@ -82,11 +83,17 @@ class ProyectosController extends Controller
         // Encuentra el proyecto por su ID
         $proyecto = Proyectos::findOrFail($id);
 
+        $usuarios = User::all(); // Obtén todos los usuarios disponibles.
+
         // Obtén las tareas asociadas utilizando nombre_proyecto
         $tareas = Tarea::where('nombre_proyecto', $proyecto->nombre)->get();
 
+        /*$usuarios = User::whereDoesntHave('proyectos', function ($query) use ($id) {
+            $query->where('proyecto_id', $id);
+        })->get(); // Obtén todos los usuarios disponibles.*/
+
         // Retorna la vista con el proyecto y las tareas asociadas
-        return view('proyectos.show', compact('proyecto', 'tareas'));
+        return view('proyectos.show', compact('proyecto', 'tareas', 'usuarios'));
     }
 
     /**
@@ -141,5 +148,48 @@ class ProyectosController extends Controller
         $tareas = $proyecto->tareas;
 
         return view('proyectos.tareas', compact('proyecto', 'tareas'));
+    }
+
+    public function asignarUsuario(Request $request, Proyectos $proyecto)
+    {
+        if (!auth()->user()->hasRole('Admin')) {
+            abort(403, 'No tienes permiso para realizar esta acción.');
+        }
+
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+        ]);
+
+        $proyecto->usuarios()->attach($request->user_id);
+
+        return redirect()->route('proyectos.show', $proyecto)->with('success', 'Usuario asignado correctamente.');
+    }
+
+    public function eliminarUsuario(Request $request, Proyectos $proyecto)
+    {
+        if (!auth()->user()->hasRole('Admin')) {
+            abort(403, 'No tienes permiso para realizar esta acción.');
+        }
+
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+        ]);
+
+        $proyecto->usuarios()->detach($request->user_id);
+
+        return redirect()->route('proyectos.show', $proyecto)->with('success', 'Usuario eliminado correctamente.');
+    }
+
+    public function cambiarEstado(Request $request, Proyectos $proyecto)
+    {
+        $request->validate([
+            'estado' => 'required|string|in:pendiente,en_progreso,completado',
+        ]);
+
+        $proyecto->update([
+            'estado' => $request->estado,
+        ]);
+
+        return redirect()->route('proyectos.show', $proyecto)->with('success', 'Estado del proyecto actualizado.');
     }
 }
