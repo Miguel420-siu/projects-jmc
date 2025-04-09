@@ -182,10 +182,17 @@ class ProyectosController extends Controller
 
     public function cambiarEstado(Request $request, Proyectos $proyecto)
     {
+        // Verificar si el usuario tiene el rol de Admin
+        if (!auth()->user()->hasRole('Admin')) {
+            abort(403, 'No tienes permiso para realizar esta acción.');
+        }
+
+        // Validar el estado enviado
         $request->validate([
             'estado' => 'required|string|in:pendiente,en_progreso,completado',
         ]);
 
+        // Actualizar el estado del proyecto
         $proyecto->update([
             'estado' => $request->estado,
         ]);

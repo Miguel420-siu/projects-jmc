@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Tarea;
+use App\Models\Proyectos;
 
 class UserController extends Controller
 {
@@ -85,9 +86,41 @@ class UserController extends Controller
 
     public function dashboard()
     {
-        $proyectos = auth()->user()->proyectos;
-        $tareas = Tarea::where('asignado_a', auth()->id())->get();
+    // Obtener los proyectos asignados al usuario autenticado
+    $proyectos = Proyectos::whereHas('usuarios', function ($query) {
+        $query->where('user_id', auth()->id());
+    })->get();
 
-        return view('dashboard', compact('proyectos', 'tareas'));
+    // Calcular el total de proyectos y los estados
+    $totalProyectos = $proyectos->count();
+    $proyectosPendientes = $proyectos->where('estado', 'pendiente')->count();
+    $proyectosEnProgreso = $proyectos->where('estado', 'en_progreso')->count();
+    $proyectosCompletados = $proyectos->where('estado', 'completado')->count();
+    
+    if (auth()->user()->hasRole('Admin')) {
+        // Si es administrador, obtiene todas las tareas
+        $tareas = Tarea::all();
+    } else {
+        // Si es un usuario normal, obtiene solo las tareas asignadas a él
+        $tareas = Tarea::where('asignado_a', auth()->id())->get();
+    }
+
+    // Calcular el total de tareas y los estados
+    $totalTareas = $tareas->count();
+    $tareasPendientes = $tareas->where('estado', 'pendiente')->count();
+    $tareasEnProgreso = $tareas->where('estado', 'en_progreso')->count();
+    $tareasCompletadas = $tareas->where('estado', 'completada')->count();
+
+        // Pasar las variables a la vista
+        return view('dashboard', compact(
+            'totalProyectos',
+            'proyectosPendientes',
+            'proyectosEnProgreso',
+            'proyectosCompletados',
+            'totalTareas',
+            'tareasPendientes',
+            'tareasEnProgreso',
+            'tareasCompletadas'
+        ));
     }
 }

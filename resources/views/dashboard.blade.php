@@ -63,6 +63,31 @@
                 </div>
             </div>
         </div>
+        <!-- Estadísticas -->
+    <div class="row">
+        <!-- Gráfico de Proyectos -->
+        <div class="col-md-6 mb-4">
+            <div class="card border-0 shadow-lg">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Estado de Proyectos</h5>
+                    <canvas id="proyectosChart" class="chart-size"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gráfico de Tareas -->
+    <div class="col-md-6 mb-4">
+        <div class="card border-0 shadow-lg">
+            <div class="card-body text-center">
+                <h5 class="card-title">Estado de Tareas</h5>
+                <canvas id="tareasChart" class="chart-size"></canvas>
+                @if ($totalTareas === 0)
+                    <p class="text-muted mt-3">No hay tareas disponibles.</p>
+                @endif
+            </div>
+        </div>
+    </div>
+</div>
 
         <!-- Mensaje inspirador -->
         <div class="row mt-5">
@@ -153,7 +178,16 @@
             transform: translateY(0);
         }
     }
+
+    .chart-size {
+        max-width: 300px;
+        max-height: 300px;
+        margin: 0 auto; /* Centrar el gráfico */
+        display: block;
+    }
 </style>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -186,5 +220,73 @@
                 setTimeout(animateElements, 50);
             }
         });
+
+        // Datos para el gráfico de proyectos
+        const proyectosData = {
+            labels: ['Pendientes', 'En Progreso', 'Completados'],
+            datasets: [{
+                data: [
+                    {{ $proyectosPendientes }},
+                    {{ $proyectosEnProgreso }},
+                    {{ $proyectosCompletados }}
+                ],
+                backgroundColor: ['#f6c23e', '#36b9cc', '#1cc88a'],
+                hoverBackgroundColor: ['#f4b619', '#2c9faf', '#17a673'],
+                borderWidth: 1
+            }]
+        };
+
+        const proyectosConfig = {
+            type: 'doughnut',
+            data: proyectosData,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                },
+            },
+        };
+
+        // Renderizar el gráfico de proyectos
+        const proyectosChart = new Chart(
+            document.getElementById('proyectosChart'),
+            proyectosConfig
+        );
+
+        // Datos para el gráfico de tareas
+        const tareasData = {
+            labels: ['Pendientes', 'En Progreso', 'Completadas'],
+            datasets: [{
+                data: [
+                    {{ $tareasPendientes }},
+                    {{ $tareasEnProgreso }},
+                    {{ $tareasCompletadas }}
+                ],
+                backgroundColor: ['#f6c23e', '#36b9cc', '#1cc88a'],
+                hoverBackgroundColor: ['#f4b619', '#2c9faf', '#17a673'],
+                borderWidth: 1
+            }]
+        };
+
+        const tareasConfig = {
+            type: 'doughnut',
+            data: tareasData,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                },
+            },
+        };
+
+        // Renderizar el gráfico de tareas
+        const tareasChart = new Chart(
+            document.getElementById('tareasChart'),
+            tareasConfig
+        );
     });
 </script>

@@ -7,6 +7,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\TareaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProyectosController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -51,11 +52,13 @@ Route::delete('/proyectos/{proyecto}', [ProyectosController::class, 'destroy'])-
 Route::middleware('role:Admin')->group(function () {
     Route::post('/proyectos/{proyecto}/asignar-usuario', [ProyectosController::class, 'asignarUsuario'])->name('proyectos.asignarUsuario');
     Route::post('/proyectos/{proyecto}/eliminar-usuario', [ProyectosController::class, 'eliminarUsuario'])->name('proyectos.eliminarUsuario');
+    Route::patch('/proyectos/{proyecto}/cambiar-estado', [ProyectosController::class, 'cambiarEstado'])
+        ->name('proyectos.cambiarEstado')
+        ->middleware('role:Admin');
 });
 
 // Rutas accesibles para todos los usuarios
 Route::get('/proyectos/{proyecto}', [ProyectosController::class, 'show'])->name('proyectos.show');
-Route::patch('/proyectos/{proyecto}/cambiar-estado', [ProyectosController::class, 'cambiarEstado'])->name('proyectos.cambiarEstado');
 
 Route::get('/tareas', [TareaController::class, 'index'])->name('tareas.index');
 
@@ -66,4 +69,5 @@ Route::post('/comentarios', [ComentarioController::class, 'store'])->name('comen
 Route::get('/dashboard', function () {
     return view('dashboard');
 });
+Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
 

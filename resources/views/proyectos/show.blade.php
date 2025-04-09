@@ -31,13 +31,21 @@
                     <tr>
                         <th>Estado</th>
                         <td>
-                            <span class="badge 
-                                @if($proyecto->estado == 'pendiente') bg-warning 
-                                @elseif($proyecto->estado == 'en_progreso') bg-info 
-                                @else bg-success 
-                                @endif">
-                                {{ ucfirst($proyecto->estado) }}
-                            </span>
+                            {{ ucfirst($proyecto->estado) }}
+                            @role('Admin') <!-- Mostrar el formulario solo si el usuario tiene el rol de Admin -->
+                            <form action="{{ route('proyectos.cambiarEstado', $proyecto) }}" method="POST" class="mt-2">
+                                @csrf
+                                @method('PATCH')
+                                <div class="d-flex">
+                                    <select name="estado" class="form-select me-2" required>
+                                        <option value="pendiente" {{ $proyecto->estado == 'pendiente' ? 'selected' : '' }}>Pendiente</option>
+                                        <option value="en_progreso" {{ $proyecto->estado == 'en_progreso' ? 'selected' : '' }}>En Progreso</option>
+                                        <option value="completado" {{ $proyecto->estado == 'completado' ? 'selected' : '' }}>Completado</option>
+                                    </select>
+                                    <button type="submit" class="btn btn-primary">Actualizar</button>
+                                </div>
+                            </form>
+                            @endrole
                         </td>
                     </tr>
                     <tr>
@@ -107,19 +115,6 @@
                 <button type="submit" class="btn btn-primary mt-2">Asignar Usuario</button>
             </form>
             @endrole
-
-            <!-- Cambiar estado del proyecto -->
-            <form action="{{ route('proyectos.cambiarEstado', $proyecto) }}" method="POST" class="mt-3">
-                @csrf
-                @method('PATCH')
-                <label for="estado" class="form-label fw-bold">Estado del Proyecto</label>
-                <select name="estado" class="form-select">
-                    <option value="pendiente" {{ $proyecto->estado == 'pendiente' ? 'selected' : '' }}>Pendiente</option>
-                    <option value="en_progreso" {{ $proyecto->estado == 'en_progreso' ? 'selected' : '' }}>En Progreso</option>
-                    <option value="completado" {{ $proyecto->estado == 'completado' ? 'selected' : '' }}>Completado</option>
-                </select>
-                <button type="submit" class="btn btn-success mt-2">Actualizar Estado</button>
-            </form>
 
             <div class="mt-4 d-flex justify-content-between">
                 <a href="{{ route('proyectos.index') }}" class="btn btn-secondary">⬅️ Volver a Proyectos</a>
