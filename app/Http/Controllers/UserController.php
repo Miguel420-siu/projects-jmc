@@ -19,11 +19,6 @@ class UserController extends Controller
         // Si existe un término de búsqueda, filtramos los resultados
         if ($request->has('search') && $request->search != '') {
             $search = $request->search;
-            $query->where(function($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('email', 'like', "%{$search}%")
-                  ->orWhere('rol', 'like', "%{$search}%");
-            });
         }
 
         // Obtener usuarios paginados
@@ -43,14 +38,12 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:6',
-            'rol' => 'required|in:admin,supervisor,trabajador', // Solo los 3 roles correctos
         ]);
 
         User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'rol' => $request->rol, // Guardamos el rol
         ]);
 
         return redirect()->route('users.index')->with('success', 'Usuario creado correctamente.');
@@ -66,13 +59,11 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
-            'rol' => 'required|in:admin,supervisor,trabajador', // Solo los 3 roles correctos
         ]);
 
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
-            'rol' => $request->rol, // Actualizamos el rol
         ]);
 
         return redirect()->route('users.index')->with('success', 'Usuario actualizado correctamente.');

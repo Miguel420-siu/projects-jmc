@@ -25,7 +25,6 @@
                         <th>ID</th>
                         <th>Nombre</th>
                         <th>Email</th>
-                        <th>Rol</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -35,15 +34,6 @@
                             <td>{{ $user->id }}</td>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
-                            <td>
-                                <span class="badge 
-                                    @if($user->rol == 'admin') bg-danger 
-                                    @elseif($user->rol == 'supervisor') bg-warning 
-                                    @else bg-secondary 
-                                    @endif">
-                                    {{ ucfirst($user->rol) }}
-                                </span>
-                            </td>
                             <td>
                                 <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-outline-warning">✏️ Editar</a>
                                 <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="d-inline">

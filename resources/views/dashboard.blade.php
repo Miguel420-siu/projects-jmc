@@ -81,9 +81,6 @@
             <div class="card-body text-center">
                 <h5 class="card-title">Estado de Tareas</h5>
                 <canvas id="tareasChart" class="chart-size"></canvas>
-                @if ($totalTareas === 0)
-                    <p class="text-muted mt-3">No hay tareas disponibles.</p>
-                @endif
             </div>
         </div>
     </div>
