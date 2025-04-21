@@ -344,31 +344,46 @@
                     </div>
                 @endif
 
-                <form action="/register" method="POST" id="registerForm">
-                    @csrf
-                    
-                    <div class="form-group">
-                        <label for="name" class="form-label">Nombre</label>
-                        <input type="text" id="name" name="name" class="form-control" placeholder="Tu nombre completo" value="{{ old('name') }}" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="email" class="form-label">Correo Electrónico</label>
-                        <input type="email" id="email" name="email" class="form-control" placeholder="tu@email.com" value="{{ old('email') }}" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="password" class="form-label">Contraseña</label>
-                        <input type="password" id="password" name="password" class="form-control" placeholder="Mínimo 8 caracteres" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="password_confirmation" class="form-label">Confirmar Contraseña</label>
-                        <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" placeholder="Repite tu contraseña" required>
-                    </div>
-                    
-                    <button type="submit" class="submit-btn">Crear Cuenta</button>
-                </form>
+                <!-- Formulario de registro -->
+    <form id="registerForm" action="{{ url('/register') }}" method="POST">
+        @csrf
+
+        <!-- Campo de nombre -->
+        <div class="form-group">
+            <label for="name" class="form-label">Nombre</label>
+            <input type="text" id="name" name="name" class="form-control" placeholder="Ingresa tu nombre" value="{{ old('name') }}" required>
+        </div>
+
+        <!-- Campo de correo electrónico -->
+        <div class="form-group">
+            <label for="email" class="form-label">Correo Electrónico</label>
+            <input type="email" id="email" name="email" class="form-control" placeholder="Ingresa tu correo electrónico" value="{{ old('email') }}" required>
+        </div>
+
+        <!-- Campo de contraseña -->
+        <div class="form-group">
+            <label for="password" class="form-label">Contraseña</label>
+            <input type="password" id="password" name="password" class="form-control" placeholder="Ingresa tu contraseña" required>
+        </div>
+
+        <!-- Campo de confirmación de contraseña -->
+        <div class="form-group">
+            <label for="password_confirmation" class="form-label">Confirmar Contraseña</label>
+            <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" placeholder="Confirma tu contraseña" required>
+        </div>
+
+        <!-- Selección de rol -->
+        <div class="form-group">
+            <label for="role" class="form-label">Selecciona tu Rol</label>
+            <select id="role" name="role" class="form-control" required>
+                <option value="Admin">Administrador</option>
+                <option value="Colaborador">Colaborador</option>
+            </select>
+        </div>
+
+        <!-- Botón de registro -->
+        <button type="submit" class="submit-btn">Registrarse</button>
+    </form>
                 
                 <div class="login-link">
                     ¿Ya tienes una cuenta? <a href="/login">Inicia sesión aquí</a>
