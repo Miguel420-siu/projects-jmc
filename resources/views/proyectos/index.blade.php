@@ -75,6 +75,10 @@
                             <i class="fas fa-sync-alt me-1"></i> Limpiar
                         </a>
                     </div>
+                    <!-- Botón para descargar PDF -->
+                    <a href="{{ route('proyectos.exportar.pdf', request()->query()) }}" class="btn btn-danger">
+                        Exportar PDF
+                    </a>
                 </div>
             </form>
 

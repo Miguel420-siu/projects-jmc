@@ -7,7 +7,8 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\TareaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProyectosController;
-use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ReporteProyectosController;
+use App\Http\Controllers\ReporteTareasController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -71,3 +72,6 @@ Route::get('/dashboard', function () {
 });
 Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
 
+//ruta para generar reporte de proyectos
+Route::get('/proyectos/exportar/pdf', [ReporteProyectosController::class, 'generarReporte'])->name('proyectos.exportar.pdf');
+Route::get('/tareas/exportar/pdf', [ReporteTareasController::class, 'generarReporte'])->name('tareas.exportar.pdf');
